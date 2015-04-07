@@ -20,6 +20,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	private SharedPreferences sharedPreferences;
 	private Map<SettingKey, List<OnSettingChangeListener>> onSettingChangeListenerMap = new HashMap<SettingKey, List<OnSettingChangeListener>>();
 
+	private boolean alreadyLeftFromForeground;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -156,4 +158,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 			}
 		}
 	}
+
+    public boolean isAlreadyLeftFromForeground() {
+        return alreadyLeftFromForeground;
+    }
+
+    public void setAlreadyLeftFromForeground(boolean alreadyLeftFromForeground) {
+        this.alreadyLeftFromForeground = alreadyLeftFromForeground;
+    }
 }

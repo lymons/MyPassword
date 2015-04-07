@@ -27,6 +27,8 @@ import cn.zdx.lib.annotation.FindViewById;
  * 
  */
 public class EntryActivity extends BaseActivity implements Callback, OnPatternListener {
+    public static final String KEY_LOAD_AUTO = "KEY_LOAD_AUTO";
+    
 	@FindViewById(R.id.entry_activity_iconview)
 	private View iconView;
 	private Handler handler;
@@ -34,6 +36,7 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 	private final int MESSAGE_START_MAIN = 1;
 	private final int MESSAGE_CLEAR_LOCKPATTERNVIEW = 3;
 	private final int MESSAGE_START_SETLOCKPATTERN = 4;
+	private final int MESSAGE_START_BACK = 5;
 
 	@FindViewById(R.id.entry_activity_bg)
 	private View backgroundView;
@@ -43,11 +46,16 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 
 	@FindViewById(R.id.entry_activity_tips)
 	private TextView tipsView;
+	
+	private boolean isAutoLoading;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_entry);
+		
+		Intent it = getIntent();
+		isAutoLoading = it.getBooleanExtra(KEY_LOAD_AUTO, false);
 
 		handler = new Handler(this);
 		lockPatternView.setOnPatternListener(this);
@@ -63,8 +71,15 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 		initAnimation();
 		checkPackageName();
 	}
+	
+	
 
-	/**
+	@Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    /**
 	 * 检查包名，防止打包党简简单单二次打包
 	 */
 	private void checkPackageName() {
@@ -86,6 +101,10 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 				startActivity(intent);
 				finish();
 				break;
+				
+			case MESSAGE_START_BACK:
+			    finish();
+			    break;
 
 			case MESSAGE_CLEAR_LOCKPATTERNVIEW:
 				lockPatternView.clearPattern();
@@ -138,7 +157,11 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 		if (LockPatternUtil.checkPatternCell(LockPatternUtil.getLocalCell(this), pattern)) {
 			// 认证通过
 			lockPatternView.setDisplayMode(DisplayMode.Correct);
-			handler.sendEmptyMessage(MESSAGE_START_MAIN);
+			if (isAutoLoading) {
+			    handler.sendEmptyMessage(MESSAGE_START_BACK);
+            } else {
+                handler.sendEmptyMessage(MESSAGE_START_MAIN);
+            }
 		} else {
 			// 认证失败
 			lockPatternView.setDisplayMode(DisplayMode.Wrong);
