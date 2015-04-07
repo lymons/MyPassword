@@ -13,9 +13,9 @@ import cn.zdx.lib.annotation.ViewFinder;
 import cn.zdx.lib.annotation.XingAnnotationHelper;
 
 /**
- * ĞŞ¸Ä·Ö×éÃû³Æ
+ * ä¿®æ”¹åˆ†ç»„åç§°
  * 
- * @author zdxing 2015Äê3ÔÂ19ÈÕ
+ * @author zdxing 2015å¹´3æœˆ19æ—¥
  *
  */
 public class UpdatePasswdGroupNameDialog extends Dialog {
@@ -24,7 +24,7 @@ public class UpdatePasswdGroupNameDialog extends Dialog {
 
 	private Mainbinder mainbinder;
 
-	/** Ô­·Ö×éÃû³Æ */
+	/** åŸåˆ†ç»„åç§° */
 	private String oldGroupName;
 
 	@FindViewById(R.id.add_password_group_cancle_btn)

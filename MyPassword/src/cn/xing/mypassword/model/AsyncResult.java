@@ -3,7 +3,7 @@ package cn.xing.mypassword.model;
 import android.os.Bundle;
 
 /**
- * 异步执行结果
+ * 寮傛鎵ц缁撴灉
  */
 public class AsyncResult<Data> {
 	private int result;

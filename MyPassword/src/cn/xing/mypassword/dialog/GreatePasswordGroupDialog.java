@@ -14,7 +14,7 @@ import cn.zdx.lib.annotation.ViewFinder;
 import cn.zdx.lib.annotation.XingAnnotationHelper;
 
 /**
- * ´´½¨ÃÜÂë·Ö×é¶Ô»°¿ò
+ * åˆ›å»ºå¯†ç åˆ†ç»„å¯¹è¯æ¡†
  */
 public class GreatePasswordGroupDialog extends Dialog {
 

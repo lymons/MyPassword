@@ -1,18 +1,18 @@
 package cn.xing.mypassword.model;
 
 public enum SettingKey {
-	/** ½âËøÍ¼°¸¸Ä±ä */
+	/** è§£é”å›¾æ¡ˆæ”¹å˜ */
 	LOCK_PATTERN,
 
-	/** ÁÐ±í»¬¶¯¶¯»­ */
+	/** åˆ—è¡¨æ»‘åŠ¨åŠ¨ç”» */
 	JAZZY_EFFECT,
 
-	/** ÊÇ·ñÌáÊ¾¹ý */
+	/** æ˜¯å¦æç¤ºè¿‡ */
 	JAZZY_EFFECT_INTRODUCTION,
 
-	/** ÉÏ´ÎÏÔÊ¾µÄgroupÃû×Ö */
+	/** ä¸Šæ¬¡æ˜¾ç¤ºçš„groupåå­— */
 	LAST_SHOW_PASSWORDGROUP_NAME,
 
-	/** ÊÇ·ñÏÔÊ¾¹ýDrawer */
+	/** æ˜¯å¦æ˜¾ç¤ºè¿‡Drawer */
 	IS_SHOWED_DRAWER;
 }

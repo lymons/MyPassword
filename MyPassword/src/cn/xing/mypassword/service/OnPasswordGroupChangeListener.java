@@ -3,7 +3,7 @@ package cn.xing.mypassword.service;
 import cn.xing.mypassword.model.PasswordGroup;
 
 /**
- * ÃÜÂë±ä»¯¼àÌıÆ÷
+ * å¯†ç å˜åŒ–ç›‘å¬å™¨
  * 
  * @author zengdexing
  * 
@@ -11,12 +11,12 @@ import cn.xing.mypassword.model.PasswordGroup;
 public interface OnPasswordGroupChangeListener {
 
 	/**
-	 * ÓÃ»§Ôö¼ÓÁËĞÂµÄÃÜÂë
+	 * ç”¨æˆ·å¢åŠ äº†æ–°çš„å¯†ç 
 	 */
 	public void onNewPasswordGroup(PasswordGroup passwordGroup);
 
 	/**
-	 * ×éÃÜÂë±»É¾³ıÁË
+	 * ç»„å¯†ç è¢«åˆ é™¤äº†
 	 */
 	public void onDeletePasswordGroup(String passwordGroupName);
 

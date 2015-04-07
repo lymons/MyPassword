@@ -21,7 +21,7 @@ import cn.zdx.lib.annotation.XingAnnotationHelper;
 import com.umeng.analytics.MobclickAgent;
 
 /**
- * ³ÌĞò»ù±¾Àà£¬ËùÓĞµÄActivity¶¼Òª¼Ì³Ğ±¾Àà£¬ÊµÏÖÁËÓÑÃËÍ³¼Æ
+ * ç¨‹åºåŸºæœ¬ç±»ï¼Œæ‰€æœ‰çš„Activityéƒ½è¦ç»§æ‰¿æœ¬ç±»ï¼Œå®ç°äº†å‹ç›Ÿç»Ÿè®¡
  *
  */
 public class BaseActivity extends Activity {
@@ -160,7 +160,7 @@ public class BaseActivity extends Activity {
 		} while ((clazz = clazz.getSuperclass()) != BaseActivity.class);
 	}
 
-	/** ³õÊ¼»¯ {@link FindViewById} */
+	/** åˆå§‹åŒ– {@link FindViewById} */
 	private void findView(Class<?> clazz, ViewFinder viewFinder) {
 		Field[] fields = clazz.getDeclaredFields();
 		if (fields != null && fields.length > 0) {

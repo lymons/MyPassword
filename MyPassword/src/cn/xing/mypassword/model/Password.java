@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Ò»ÌõÃÜÂë
+ * ä¸€æ¡å¯†ç 
  * 
  * @author zengdexing
  * 
@@ -14,22 +14,22 @@ import org.json.JSONObject;
 public class Password implements Serializable {
 	private static final long serialVersionUID = -961233794781935060L;
 
-	/** Êı¾İ¿âÖ÷¼ü */
+	/** æ•°æ®åº“ä¸»é”® */
 	private int id;
 
-	/** ´´½¨ÈÕÆÚ */
+	/** åˆ›å»ºæ—¥æœŸ */
 	private long createDate;
 
-	/** ±êÌâ */
+	/** æ ‡é¢˜ */
 	private String title;
-	/** ÓÃ»§Ãû */
+	/** ç”¨æˆ·å */
 	private String userName;
-	/** ÃÜÂë */
+	/** å¯†ç  */
 	private String password;
-	/** ±ê×¢ */
+	/** æ ‡æ³¨ */
 	private String note;
 
-	/** ÃÜÂëËùÊô·Ö×é */
+	/** å¯†ç æ‰€å±åˆ†ç»„ */
 	private String groupName;
 
 	private boolean isTop = false;
@@ -92,7 +92,7 @@ public class Password implements Serializable {
 		password.setPassword(jsonObject.getString("password"));
 		password.setNote(jsonObject.getString("note"));
 		password.setTop(jsonObject.optBoolean("isTop", false));
-		password.setGroupName(jsonObject.optString("groupName", "Ä¬ÈÏ"));
+		password.setGroupName(jsonObject.optString("groupName", "é»˜è®¤"));
 		return password;
 	}
 

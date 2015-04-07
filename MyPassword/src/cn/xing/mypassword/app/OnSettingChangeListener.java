@@ -3,7 +3,7 @@ package cn.xing.mypassword.app;
 import cn.xing.mypassword.model.SettingKey;
 
 /**
- * ÓÃ»§ÉèÖÃ±ä»¯¼àÌıÆ÷
+ * ç”¨æˆ·è®¾ç½®å˜åŒ–ç›‘å¬å™¨
  */
 public interface OnSettingChangeListener {
 	void onSettingChange(SettingKey key);

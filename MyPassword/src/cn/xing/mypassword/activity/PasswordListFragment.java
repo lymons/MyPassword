@@ -23,7 +23,7 @@ import com.twotoasters.jazzylistview.JazzyHelper;
 import com.twotoasters.jazzylistview.JazzyListView;
 
 /**
- * ÃÜÂëÁĞ±íÕ¹Ê¾½çÃæ
+ * å¯†ç åˆ—è¡¨å±•ç¤ºç•Œé¢
  * 
  * @author zengdexing
  * 
@@ -31,14 +31,14 @@ import com.twotoasters.jazzylistview.JazzyListView;
 public class PasswordListFragment extends BaseFragment implements OnGetAllPasswordCallback, OnSettingChangeListener,
 		android.view.View.OnClickListener {
 
-	/** Êı¾İ */
+	/** æ•°æ® */
 	private PasswordListAdapter mainAdapter;
 
-	/** Êı¾İÔ´ */
+	/** æ•°æ®æº */
 	private Mainbinder mainbinder;
 
 	private JazzyListView listView;
-	/** Ã»ÓĞÊı¾İµÄÌáÊ¾¿ò */
+	/** æ²¡æœ‰æ•°æ®çš„æç¤ºæ¡† */
 	private View noDataView;
 
 	private String passwordGroupName;
@@ -89,7 +89,7 @@ public class PasswordListFragment extends BaseFragment implements OnGetAllPasswo
 	}
 
 	/**
-	 * »ñµÃ±¾µØ±£´æµÄÌØĞ§£ºÓÃ»§ÉèÖÃ
+	 * è·å¾—æœ¬åœ°ä¿å­˜çš„ç‰¹æ•ˆï¼šç”¨æˆ·è®¾ç½®
 	 * 
 	 * @return
 	 */

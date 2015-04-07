@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
- * ÀûÓÃ·´Éä·½Ê½µ÷ÓÃ{@link OnClick}°ó¶¨µÄ·½·¨
+ * åˆ©ç”¨åå°„æ–¹å¼è°ƒç”¨{@link OnClick}ç»‘å®šçš„æ–¹æ³•
  * 
  * @author zengdexing
  * 

@@ -21,7 +21,7 @@ import cn.xing.mypassword.view.LockPatternView.OnPatternListener;
 import cn.zdx.lib.annotation.FindViewById;
 
 /**
- * Èë¿Ú£¬»¶Ó­Ò³
+ * å…¥å£ï¼Œæ¬¢è¿é¡µ
  * 
  * @author zengdexing
  * 
@@ -62,7 +62,7 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 
 		List<Cell> cells = LockPatternUtil.getLocalCell(this);
 		if (cells.size() == 0) {
-			// Ê×´ÎÊ¹ÓÃ£¬Ã»ÓĞÉèÖÃÃÜÂë£¬Ìø×ªÉèÖÃÃÜÂëÒ³
+			// é¦–æ¬¡ä½¿ç”¨ï¼Œæ²¡æœ‰è®¾ç½®å¯†ç ï¼Œè·³è½¬è®¾ç½®å¯†ç é¡µ
 			lockPatternView.setEnabled(false);
 			handler.sendEmptyMessageDelayed(MESSAGE_START_SETLOCKPATTERN, 2000);
 		}
@@ -80,7 +80,7 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
     }
 
     /**
-	 * ¼ì²é°üÃû£¬·ÀÖ¹´ò°üµ³¼ò¼òµ¥µ¥¶ş´Î´ò°ü
+	 * æ£€æŸ¥åŒ…åï¼Œé˜²æ­¢æ‰“åŒ…å…šç®€ç®€å•å•äºŒæ¬¡æ‰“åŒ…
 	 */
 	private void checkPackageName() {
 		if (!getPackageName().equals(getString(R.string.package_name)))
@@ -118,7 +118,7 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 	}
 
 	/**
-	 * Í¼±ê¶¯»­
+	 * å›¾æ ‡åŠ¨ç”»
 	 */
 	private void initAnimation() {
 		Animation iconAnimation = AnimationUtils.loadAnimation(this, R.anim.entry_animation_icon);
@@ -155,7 +155,7 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
 	@Override
 	public void onPatternDetected(List<Cell> pattern) {
 		if (LockPatternUtil.checkPatternCell(LockPatternUtil.getLocalCell(this), pattern)) {
-			// ÈÏÖ¤Í¨¹ı
+			// è®¤è¯é€šè¿‡
 			lockPatternView.setDisplayMode(DisplayMode.Correct);
 			if (isAutoLoading) {
 			    handler.sendEmptyMessage(MESSAGE_START_BACK);
@@ -163,7 +163,7 @@ public class EntryActivity extends BaseActivity implements Callback, OnPatternLi
                 handler.sendEmptyMessage(MESSAGE_START_MAIN);
             }
 		} else {
-			// ÈÏÖ¤Ê§°Ü
+			// è®¤è¯å¤±è´¥
 			lockPatternView.setDisplayMode(DisplayMode.Wrong);
 			tipsView.setText(R.string.lock_pattern_error);
 			handler.sendEmptyMessageDelayed(MESSAGE_CLEAR_LOCKPATTERNVIEW, 1000);

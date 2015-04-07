@@ -8,7 +8,7 @@ import android.app.Dialog;
 import android.view.View;
 
 /**
- * View²éÕÒÆ÷
+ * ViewæŸ¥æ‰¾å™¨
  * 
  * @author zengdexing
  */

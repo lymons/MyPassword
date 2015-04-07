@@ -37,13 +37,13 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 /**
- * Ö÷½çÃæ
+ * ä¸»ç•Œé¢
  * 
  * @author zengdexing
  * 
  */
 public class MainActivity extends BaseActivity {
-	/** Êı¾İÔ´ */
+	/** æ•°æ®æº */
 	private Mainbinder mainbinder;
 	private long lastBackKeyTime;
 
@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
 		Intent intent = new Intent(this, MainService.class);
 		this.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
-		// ÓÑÃË×Ô¶¯Éı¼¶
+		// å‹ç›Ÿè‡ªåŠ¨å‡çº§
 		UmengUpdateAgent.update(this);
 	}
 
@@ -194,7 +194,7 @@ public class MainActivity extends BaseActivity {
 				break;
 
 			case R.id.action_import:
-				// ÃÜÂëµ¼Èë
+				// å¯†ç å¯¼å…¥
 				if (mainbinder == null)
 					break;
 				ImportDialog importDialog = new ImportDialog(getActivity(), mainbinder);
@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity {
 				break;
 
 			case R.id.action_export:
-				// ÃÜÂëµ¼³ö
+				// å¯†ç å¯¼å‡º
 				if (mainbinder == null)
 					break;
 				if (!isExistSDCard()) {
@@ -214,19 +214,19 @@ public class MainActivity extends BaseActivity {
 				break;
 
 			case R.id.action_set_lock_pattern:
-				// Èí¼şËø
+				// è½¯ä»¶é”
 				startActivity(new Intent(this, SetLockpatternActivity.class));
 				break;
 			case R.id.action_set_effect:
-				// ÁĞ±íÌØĞ§
+				// åˆ—è¡¨ç‰¹æ•ˆ
 				onEffectClick();
 				break;
 			case R.id.action_about:
-				// ¹ØÓÚ
+				// å…³äº
 				startActivity(new Intent(this, AboutActivity.class));
 				break;
 			case R.id.action_exit:
-				// ÍË³ö
+				// é€€å‡º
 				finish();
 				break;
 
@@ -252,7 +252,7 @@ public class MainActivity extends BaseActivity {
 			case KeyEvent.KEYCODE_BACK:
 				long delay = Math.abs(System.currentTimeMillis() - lastBackKeyTime);
 				if (delay > 4000) {
-					// Ë«»÷ÍË³ö³ÌĞò
+					// åŒå‡»é€€å‡ºç¨‹åº
 					showToast(R.string.toast_key_back);
 					lastBackKeyTime = System.currentTimeMillis();
 					return true;
@@ -294,7 +294,7 @@ public class MainActivity extends BaseActivity {
 	}
 
 	/**
-	 * ÓÑÃËµÄÊÂ¼şÍ³¼Æ¡°effect¡±
+	 * å‹ç›Ÿçš„äº‹ä»¶ç»Ÿè®¡â€œeffectâ€
 	 * 
 	 * @param effect
 	 */

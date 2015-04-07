@@ -75,7 +75,7 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 			}
 
 			if (hasMerge) {
-				// ÓĞºÏ²¢µÄ£¬ ÒÆ³ıÀÏµÄ·Ö×é
+				// æœ‰åˆå¹¶çš„ï¼Œ ç§»é™¤è€çš„åˆ†ç»„
 				for (int i = 0; i < count; i++) {
 					PasswordGroup item = passwordGroupAdapter.getItem(i);
 					if (item.getGroupName().equals(oldGroupName)) {
@@ -85,7 +85,7 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 				}
 
 			} else {
-				/** ·Ö×é±ä»¯ÁË£¬¸Ä±äÏÖÔÚµÄ·Ö×éÃû³Æ */
+				/** åˆ†ç»„å˜åŒ–äº†ï¼Œæ”¹å˜ç°åœ¨çš„åˆ†ç»„åç§° */
 				for (int i = 0; i < count; i++) {
 					PasswordGroup item = passwordGroupAdapter.getItem(i);
 					if (item.getGroupName().equals(oldGroupName)) {
@@ -96,7 +96,7 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 				}
 			}
 
-			// µ±Ç°Ñ¡ÖĞµÄÃû³Æ±äÁË ÖØĞÂ¼ÓÔØ
+			// å½“å‰é€‰ä¸­çš„åç§°å˜äº† é‡æ–°åŠ è½½
 			if (passwordGroupAdapter.getCurrentGroupName().equals(oldGroupName)
 					|| passwordGroupAdapter.getCurrentGroupName().equals(newGroupName)) {
 				selectItem(newGroupName);
@@ -107,7 +107,7 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 	private OnItemLongClickListener onDeleteClickListener = new OnItemLongClickListener() {
 		@Override
 		public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-			// ³¤°´É¾³ıÃÜÂë
+			// é•¿æŒ‰åˆ é™¤å¯†ç 
 			final String passwordGroupName = ((PasswordGroup) (parent.getItemAtPosition(position))).getGroupName();
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -119,7 +119,7 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 				public void onClick(DialogInterface dialog, int which) {
 					switch (which) {
 						case 0:
-							// ĞŞ¸Ä·Ö×éÃû
+							// ä¿®æ”¹åˆ†ç»„å
 							UpdatePasswdGroupNameDialog updatePasswdGroupName = new UpdatePasswdGroupNameDialog(
 									getActivity(), passwordGroupName, mainbinder);
 							updatePasswdGroupName.show();
@@ -130,7 +130,7 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 							break;
 
 						case 2:
-							// É¾³ı·Ö×é
+							// åˆ é™¤åˆ†ç»„
 							showDeleteDialog(passwordGroupName);
 							break;
 					}
@@ -144,10 +144,10 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 	};
 
 	/**
-	 * ºÏ²¢·Ö×é
+	 * åˆå¹¶åˆ†ç»„
 	 * 
 	 * @param passwordGroupName
-	 *            Ô­·Ö×éÃû
+	 *            åŸåˆ†ç»„å
 	 */
 	private void mergeGroup(final String passwordGroupName) {
 		final ProgressDialog progressDialog = new ProgressDialog(getActivity());
@@ -156,19 +156,19 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 		progressDialog.setIndeterminate(false);
 		progressDialog.show();
 
-		// »ñÈ¡·Ö×é»Øµ÷
+		// è·å–åˆ†ç»„å›è°ƒ
 		OnGetAllPasswordGroupCallback onGetAllPasswordGroupCallback = new OnGetAllPasswordGroupCallback() {
 			@Override
 			public void onGetAllPasswordGroup(List<PasswordGroup> passwordGroups) {
 				progressDialog.dismiss();
-				// ·Ö×é»ñÈ¡³É¹¦
+				// åˆ†ç»„è·å–æˆåŠŸ
 
 				if (passwordGroups.size() <= 1) {
 					getBaseActivity().showToast(R.string.password_group_merge_error);
 					return;
 				}
 
-				// ÓÃ»§Ñ¡ÔñĞèÒªºÏ²¢µ½µÄ·Ö×é
+				// ç”¨æˆ·é€‰æ‹©éœ€è¦åˆå¹¶åˆ°çš„åˆ†ç»„
 				final List<String> items = new ArrayList<String>();
 				for (PasswordGroup passwordGroup : passwordGroups) {
 					if (!passwordGroup.getGroupName().equals(passwordGroupName)) {
@@ -188,15 +188,15 @@ public class PasswordGroupFragment extends Fragment implements OnItemClickListen
 			}
 		};
 
-		// »ñÈ¡ËùÓĞµÄ·Ö×é
+		// è·å–æ‰€æœ‰çš„åˆ†ç»„
 		mainbinder.getAllPasswordGroup(onGetAllPasswordGroupCallback);
 	}
 
 	/**
-	 * ÏÔÊ¾É¾³ıÃÜÂë·Ö×é¶Ô»°¿ò
+	 * æ˜¾ç¤ºåˆ é™¤å¯†ç åˆ†ç»„å¯¹è¯æ¡†
 	 * 
 	 * @param passwordGroupName
-	 *            ÒªÉ¾³ıµÄÃÜÂë·Ö×é
+	 *            è¦åˆ é™¤çš„å¯†ç åˆ†ç»„
 	 */
 	private void showDeleteDialog(final String passwordGroupName) {
 		Builder builder = new Builder(getActivity());

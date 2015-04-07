@@ -19,21 +19,21 @@ public class Mainbinder extends Binder {
 	private MyApplication myApplication;
 	private PasswordDatabase passwordDatabase;
 
-	/** ÃÜÂë±ä»¯¼àÌıÆ÷ */
+	/** å¯†ç å˜åŒ–ç›‘å¬å™¨ */
 	private List<OnPasswordChangeListener> onPasswordListeners = new ArrayList<OnPasswordChangeListener>();
 
-	/** ÃÜÂë·Ö×é±ä»¯¼àÌı */
+	/** å¯†ç åˆ†ç»„å˜åŒ–ç›‘å¬ */
 	private List<OnPasswordGroupChangeListener> onPasswordGroupListeners = new ArrayList<OnPasswordGroupChangeListener>();
 
 	private OnSettingChangeListener onSettingChangeListener = new OnSettingChangeListener() {
 		@Override
 		public void onSettingChange(SettingKey key) {
-			// ÓÃ»§ÃÜÂë±ä»¯ÁË£¬ÖØĞÂ½âÃÜºóÔÙ¼ÓÃÜ
+			// ç”¨æˆ·å¯†ç å˜åŒ–äº†ï¼Œé‡æ–°è§£å¯†åå†åŠ å¯†
 			encodePasswd(myApplication.getSetting(SettingKey.LOCK_PATTERN, "[]"));
 		}
 	};
 
-	/** ÖØĞÂ½âÃÜ */
+	/** é‡æ–°è§£å¯† */
 	private void encodePasswd(final String newPasswd) {
 		new AsyncSingleTask<Void>() {
 			@Override
@@ -49,7 +49,7 @@ public class Mainbinder extends Binder {
 		this.myApplication = myApplication;
 		final String passwd = myApplication.getSetting(SettingKey.LOCK_PATTERN, "[]");
 		myApplication.registOnSettingChangeListener(SettingKey.LOCK_PATTERN, onSettingChangeListener);
-		// Ïß³Ì°²È«
+		// çº¿ç¨‹å®‰å…¨
 		new AsyncSingleTask<Void>() {
 			@Override
 			protected AsyncResult<Void> doInBackground(AsyncResult<Void> asyncResult) {
@@ -144,12 +144,12 @@ public class Mainbinder extends Binder {
 	}
 
 	/**
-	 * É¾³ıÃÜÂë
+	 * åˆ é™¤å¯†ç 
 	 * 
 	 * @param id
-	 *            ÃÜÂëID
+	 *            å¯†ç ID
 	 * @param onDeletePasswordResultListener
-	 *            ½á¹û¼àÌıÆ÷
+	 *            ç»“æœç›‘å¬å™¨
 	 */
 	public void deletePassword(final int id) {
 		new AsyncSingleTask<Void>() {
@@ -209,7 +209,7 @@ public class Mainbinder extends Binder {
 			protected AsyncResult<Password> doInBackground(AsyncResult<Password> asyncResult) {
 				String newGroupName = password.getGroupName();
 
-				/** ÊÇ·ñÊÇĞÂµÄ·Ö×é */
+				/** æ˜¯å¦æ˜¯æ–°çš„åˆ†ç»„ */
 				boolean isNew = true;
 				List<PasswordGroup> passwordGroups = passwordDatabase.getAllPasswordGroup();
 				for (int i = 0; i < passwordGroups.size(); i++) {
@@ -221,7 +221,7 @@ public class Mainbinder extends Binder {
 				}
 
 				if (isNew) {
-					// ²»´æÔÚµÄ·Ö×é£¬Ìí¼Ó
+					// ä¸å­˜åœ¨çš„åˆ†ç»„ï¼Œæ·»åŠ 
 					PasswordGroup passwordGroup = new PasswordGroup();
 					passwordGroup.setGroupName(newGroupName);
 					passwordDatabase.addPasswordGroup(passwordGroup);
@@ -290,10 +290,10 @@ public class Mainbinder extends Binder {
 	}
 
 	/**
-	 * É¾³ıÃÜÂë·Ö×é£¬°üÀ¨ÃÜÂë·Ö×¡ÏÂµÄËùÓĞÃÜÂë¶¼»á±»É¾³ı
+	 * åˆ é™¤å¯†ç åˆ†ç»„ï¼ŒåŒ…æ‹¬å¯†ç åˆ†ä½ä¸‹çš„æ‰€æœ‰å¯†ç éƒ½ä¼šè¢«åˆ é™¤
 	 * 
 	 * @param passwordGroupName
-	 *            ·Ö×éÃû
+	 *            åˆ†ç»„å
 	 */
 	public void deletePasswordgroup(final String passwordGroupName) {
 		new AsyncSingleTask<Void>() {
@@ -316,7 +316,7 @@ public class Mainbinder extends Binder {
 	}
 
 	/**
-	 * ¸üĞÂ×éÃû×Ö
+	 * æ›´æ–°ç»„åå­—
 	 * 
 	 * @param oldGroupName
 	 * @param newGroupName

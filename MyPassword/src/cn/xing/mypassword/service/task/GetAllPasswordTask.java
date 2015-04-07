@@ -9,7 +9,7 @@ import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.service.OnGetAllPasswordCallback;
 
 /**
- * Òì²½»ñÈ¡ËùÓĞÃÜÂëÈÎÎñ
+ * å¼‚æ­¥è·å–æ‰€æœ‰å¯†ç ä»»åŠ¡
  */
 public class GetAllPasswordTask extends AsyncSingleTask<List<Password>> {
 	private PasswordDatabase passwordDatabase;

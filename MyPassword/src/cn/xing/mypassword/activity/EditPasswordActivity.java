@@ -39,28 +39,28 @@ import cn.xing.mypassword.service.OnGetPasswordCallback;
 import cn.zdx.lib.annotation.FindViewById;
 
 /**
- * ÃÜÂëĞÂÔöºÍ±à¼­½çÃæ
+ * å¯†ç æ–°å¢å’Œç¼–è¾‘ç•Œé¢
  * 
  * @author zengdexing
  * 
  */
 public class EditPasswordActivity extends BaseActivity implements OnGetPasswordCallback, OnGetAllPasswordCallback,
 		OnGetAllPasswordGroupCallback {
-	/** ´«Èë²ÎÊı ÃÜÂë ID */
+	/** ä¼ å…¥å‚æ•° å¯†ç  ID */
 	public static final String ID = "password_id";
 	public static final String PASSWORD_GROUP = "password_group";
-	/** Ìí¼ÓÄ£Ê½ */
+	/** æ·»åŠ æ¨¡å¼ */
 	private static final int MODE_ADD = 0;
-	/** ĞŞ¸ÄÄ£Ê½ */
+	/** ä¿®æ”¹æ¨¡å¼ */
 	private static final int MODE_MODIFY = 1;
 
-	/** µ±Ç°Ä£Ê½£¬Ä¬ÈÏÔö¼Ó */
+	/** å½“å‰æ¨¡å¼ï¼Œé»˜è®¤å¢åŠ  */
 	private int MODE = MODE_ADD;
 	
-	/** ĞŞ¸ÄÃÜÂëµÄID */
+	/** ä¿®æ”¹å¯†ç çš„ID */
 	private int id;
 
-	/** Êı¾İÔ´ */
+	/** æ•°æ®æº */
 	private Mainbinder mainbinder;
 
 	@FindViewById(R.id.editview_title)
@@ -95,7 +95,7 @@ public class EditPasswordActivity extends BaseActivity implements OnGetPasswordC
 			if (MODE == MODE_MODIFY) {
 				mainbinder.getPassword(id, EditPasswordActivity.this);
 			}
-			// »ñµÃËùÓĞÃÜÂë¡¢ÓÃ»§Ãû£¬ÓÃÓÚ×Ô¶¯Íê³É
+			// è·å¾—æ‰€æœ‰å¯†ç ã€ç”¨æˆ·åï¼Œç”¨äºè‡ªåŠ¨å®Œæˆ
 			mainbinder.getAllPassword(EditPasswordActivity.this);
 			mainbinder.getAllPasswordGroup(EditPasswordActivity.this);
 		}
@@ -196,11 +196,11 @@ public class EditPasswordActivity extends BaseActivity implements OnGetPasswordC
 			password.setTop(isTopView.isChecked());
 			password.setGroupName(passwordGroup);
 			if (MODE == MODE_ADD) {
-				// Ìí¼Ó
+				// æ·»åŠ 
 				password.setCreateDate(System.currentTimeMillis());
 				mainbinder.insertPassword(password);
 			} else {
-				// ĞŞ¸ÄÃÜÂë
+				// ä¿®æ”¹å¯†ç 
 				password.setId(id);
 				mainbinder.updatePassword(password);
 			}
@@ -225,7 +225,7 @@ public class EditPasswordActivity extends BaseActivity implements OnGetPasswordC
 
 	@Override
 	public void onGetAllPassword(String groupName, List<Password> passwords) {
-		// È¥µôÖØ¸´
+		// å»æ‰é‡å¤
 		Set<String> arrays = new HashSet<String>();
 		for (int i = 0; i < passwords.size(); i++) {
 			Password password = passwords.get(i);
@@ -233,7 +233,7 @@ public class EditPasswordActivity extends BaseActivity implements OnGetPasswordC
 			arrays.add(password.getPassword());
 		}
 
-		// ×Ô¶¯Íê³É
+		// è‡ªåŠ¨å®Œæˆ
 		int id = R.layout.simple_dropdown_item;
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, id, new ArrayList<String>(arrays));
 		nameView.setAdapter(arrayAdapter);

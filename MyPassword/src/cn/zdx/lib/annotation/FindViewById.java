@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ¿Ø¼ş²éÕÒ×¢½â
+ * æ§ä»¶æŸ¥æ‰¾æ³¨è§£
  * 
  * @author zengdexing
  * 

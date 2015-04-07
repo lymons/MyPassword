@@ -29,7 +29,7 @@ import cn.zdx.lib.annotation.FindViewById;
 import cn.zdx.lib.annotation.XingAnnotationHelper;
 
 /**
- * Ö÷½çÃæÃÜÂëÊÊÅäÆ÷
+ * ä¸»ç•Œé¢å¯†ç é€‚é…å™¨
  * 
  * @author zengdexing
  * 
@@ -45,13 +45,13 @@ public class PasswordListAdapter extends BaseAdapter {
 
 	private String passwordGroup;
 
-	/** Ò»Ììº¬ÓĞµÄÃëÊı */
+	/** ä¸€å¤©å«æœ‰çš„ç§’æ•° */
 	private static final long DAY = 1000 * 60 * 60 * 24;
 
 	private Comparator<PasswordItem> comparator = new Comparator<PasswordItem>() {
 		@Override
 		public int compare(PasswordItem lhs, PasswordItem rhs) {
-			// ÖÃ¶¥ÅÅĞò
+			// ç½®é¡¶æ’åº
 			if (lhs.password.isTop() || rhs.password.isTop()) {
 				if (lhs.password.isTop() && rhs.password.isTop()) {
 					return (int) (rhs.password.getCreateDate() - lhs.password.getCreateDate());
@@ -204,7 +204,7 @@ public class PasswordListAdapter extends BaseAdapter {
 				public void onClick(DialogInterface dialog, int which) {
 					switch (which) {
 						case 0:
-							// ¸´ÖÆÃû×Ö
+							// å¤åˆ¶åå­—
 							ClipboardManager cmbName = (ClipboardManager) context
 									.getSystemService(Context.CLIPBOARD_SERVICE);
 							ClipData clipDataName = ClipData.newPlainText(null, passwordItem.password.getUserName());
@@ -212,7 +212,7 @@ public class PasswordListAdapter extends BaseAdapter {
 							Toast.makeText(context, R.string.copy_name_toast, Toast.LENGTH_SHORT).show();
 							break;
 						case 1:
-							// ¸´ÖÆÃÜÂë
+							// å¤åˆ¶å¯†ç 
 							ClipboardManager cmbPassword = (ClipboardManager) context
 									.getSystemService(Context.CLIPBOARD_SERVICE);
 							ClipData clipData = ClipData.newPlainText(null, passwordItem.password.getPassword());

@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * µ¥ÈÎÎñÏß³Ì£¬ÏÈ½øÏÈ³öÖ´ĞĞÈÎÎñ
+ * å•ä»»åŠ¡çº¿ç¨‹ï¼Œå…ˆè¿›å…ˆå‡ºæ‰§è¡Œä»»åŠ¡
  */
 public abstract class AsyncSingleTask<D> {
 	private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -23,7 +23,7 @@ public abstract class AsyncSingleTask<D> {
 
 	public synchronized void execute() {
 		if (isRunned)
-			throw new RuntimeException("¸ÃÈÎÎñÒÑ¾­ÔËĞĞ¹ı£¬²»ÄÜÔÙ´Îµ÷ÓÃ");
+			throw new RuntimeException("è¯¥ä»»åŠ¡å·²ç»è¿è¡Œè¿‡ï¼Œä¸èƒ½å†æ¬¡è°ƒç”¨");
 
 		isRunned = true;
 		executorService.execute(backgroundRunable);
@@ -45,12 +45,12 @@ public abstract class AsyncSingleTask<D> {
 	};
 
 	/**
-	 * ÔÚºóÌ¨Ö´ĞĞ
+	 * åœ¨åå°æ‰§è¡Œ
 	 */
 	protected abstract AsyncResult<D> doInBackground(AsyncResult<D> asyncResult);
 
 	/**
-	 * ÔÚUIÏß³ÌÖ´ĞĞ
+	 * åœ¨UIçº¿ç¨‹æ‰§è¡Œ
 	 * 
 	 * @param asyncResult
 	 */

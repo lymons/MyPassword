@@ -9,17 +9,17 @@ import android.app.Activity;
 import android.view.View;
 
 /**
- * ×¢½â°ïÖúÀà£¬Ö§³ÖÈÎºÎ¶ÔÏóµÄ³ÉÔ±±äÁ¿Ê¹ÓÃ{@link FindViewById}²éÕÒ¿Ø¼ş¡¢·½·¨Ê¹ÓÃ{@link OnClick}°ó¶¨µã»÷ÊÂ¼ş¡£
+ * æ³¨è§£å¸®åŠ©ç±»ï¼Œæ”¯æŒä»»ä½•å¯¹è±¡çš„æˆå‘˜å˜é‡ä½¿ç”¨{@link FindViewById}æŸ¥æ‰¾æ§ä»¶ã€æ–¹æ³•ä½¿ç”¨{@link OnClick}ç»‘å®šç‚¹å‡»äº‹ä»¶ã€‚
  * <p>
- * ×¢Òâ£º¼Ì³Ğ×Ô{@link XingBaseActivity}µÄUI²»ĞèÒªÔÙÊ¹ÓÃ¸ÃÀà£¬BaseActivityÒÑ¾­Ìá¹©ÁË¶Ô
- * {@link FindViewById}ºÍ {@link OnClick} µÄÖ§³Ö£¬ÔÚBaseActivityÖĞÖ±½ÓÊ¹ÓÃ
+ * æ³¨æ„ï¼šç»§æ‰¿è‡ª{@link XingBaseActivity}çš„UIä¸éœ€è¦å†ä½¿ç”¨è¯¥ç±»ï¼ŒBaseActivityå·²ç»æä¾›äº†å¯¹
+ * {@link FindViewById}å’Œ {@link OnClick} çš„æ”¯æŒï¼Œåœ¨BaseActivityä¸­ç›´æ¥ä½¿ç”¨
  * </p>
  * 
  * @author zengdexing
  */
 public class XingAnnotationHelper {
 	/**
-	 * ³õÊ¼»¯ActivityÖĞÊ¹ÓÃÁË{@link FindViewById}×¢½âµÄ³ÉÔ±±äÁ¿
+	 * åˆå§‹åŒ–Activityä¸­ä½¿ç”¨äº†{@link FindViewById}æ³¨è§£çš„æˆå‘˜å˜é‡
 	 * 
 	 * @param target
 	 */
@@ -28,7 +28,7 @@ public class XingAnnotationHelper {
 	}
 
 	/**
-	 * ³õÊ¼»¯ObjectÖĞÊ¹ÓÃÁË{@link FindViewById}×¢½âµÄ³ÉÔ±±äÁ¿
+	 * åˆå§‹åŒ–Objectä¸­ä½¿ç”¨äº†{@link FindViewById}æ³¨è§£çš„æˆå‘˜å˜é‡
 	 * 
 	 * @param target
 	 */
@@ -37,12 +37,12 @@ public class XingAnnotationHelper {
 	}
 
 	/**
-	 * ³õÊ¼»¯Ê¹ÓÃÁË{@link FindViewById}×¢½âµÄÀà³ÉÔ±±äÁ¿
+	 * åˆå§‹åŒ–ä½¿ç”¨äº†{@link FindViewById}æ³¨è§£çš„ç±»æˆå‘˜å˜é‡
 	 * 
 	 * @param target
-	 *            ĞèÒª³õÊ¼»¯µÄ¶ÔÏó£¬¸Ã¶ÔÏóµÄ³ÉÔ±±äÁ¿Ê¹ÓÃÁË{@link FindViewById}×¢½â
+	 *            éœ€è¦åˆå§‹åŒ–çš„å¯¹è±¡ï¼Œè¯¥å¯¹è±¡çš„æˆå‘˜å˜é‡ä½¿ç”¨äº†{@link FindViewById}æ³¨è§£
 	 * @param viewFinder
-	 *            View²éÕÒÆ÷
+	 *            ViewæŸ¥æ‰¾å™¨
 	 */
 	public static void findView(Object target, ViewFinder viewFinder) {
 		Class<?> clazz = target.getClass();
@@ -57,14 +57,14 @@ public class XingAnnotationHelper {
 	}
 
 	/**
-	 * °ó¶¨Ê¹ÓÃ{@link FindViewById}×¢½âµÄ·½·¨
+	 * ç»‘å®šä½¿ç”¨{@link FindViewById}æ³¨è§£çš„æ–¹æ³•
 	 * 
 	 * @param target
-	 *            ĞèÒª°ó¶¨µÄ¶ÔÏó£¬¸Ã¶ÔÏóÓĞ³ÉÔ±±äÁ¿Ê¹ÓÃÁË{@link FindViewById}
+	 *            éœ€è¦ç»‘å®šçš„å¯¹è±¡ï¼Œè¯¥å¯¹è±¡æœ‰æˆå‘˜å˜é‡ä½¿ç”¨äº†{@link FindViewById}
 	 * @param field
-	 *            ĞèÒª°ó¶¨µÄ±äÁ¿
+	 *            éœ€è¦ç»‘å®šçš„å˜é‡
 	 * @param viewFinder
-	 *            VIew²éÕÒÆ÷
+	 *            VIewæŸ¥æ‰¾å™¨
 	 */
 	public static void findView(Object target, Field field, ViewFinder viewFinder) {
 		if (field.isAnnotationPresent(FindViewById.class)) {
@@ -86,19 +86,19 @@ public class XingAnnotationHelper {
 	}
 
 	/**
-	 * ¼ì²éÀàĞÍ¡£</br>
+	 * æ£€æŸ¥ç±»å‹ã€‚</br>
 	 * <p>
-	 * Èç¹û²úÉú{@link NullPointerException}Òì³££¬Í¨³£ÊÇ×¢½âµÄID´íÎó£¬¼´£º¸ù¾İ¸ÃIDÕÒ²»µ½ÏàÓ¦µÄ¿Ø¼ş¡£
+	 * å¦‚æœäº§ç”Ÿ{@link NullPointerException}å¼‚å¸¸ï¼Œé€šå¸¸æ˜¯æ³¨è§£çš„IDé”™è¯¯ï¼Œå³ï¼šæ ¹æ®è¯¥IDæ‰¾ä¸åˆ°ç›¸åº”çš„æ§ä»¶ã€‚
 	 * </p>
 	 * <p>
-	 * Èç¹û²úÉú{@link ClassCastException}Òì³££¬Í¨³£ÊÇ×¢½âIDµÄ¿Ø¼şÔÚXMLÖĞµÄÀàĞÍºÍĞèÒª°ó¶¨µÄ¶ÔÏóÀàĞÍ²»Ò»ÖÂ¡£
+	 * å¦‚æœäº§ç”Ÿ{@link ClassCastException}å¼‚å¸¸ï¼Œé€šå¸¸æ˜¯æ³¨è§£IDçš„æ§ä»¶åœ¨XMLä¸­çš„ç±»å‹å’Œéœ€è¦ç»‘å®šçš„å¯¹è±¡ç±»å‹ä¸ä¸€è‡´ã€‚
 	 * </p>
 	 */
 	private static void checkView(String msg, View targetView, Class<?> bindType) {
 		if (targetView == null) {
-			throw new NullPointerException("\"" + msg + "\"Òª°ó¶¨µÄ¿Ø¼ş²»´æÔÚ!!");
+			throw new NullPointerException("\"" + msg + "\"è¦ç»‘å®šçš„æ§ä»¶ä¸å­˜åœ¨!!");
 		} else if (!bindType.isInstance(targetView)) {
-			String error = "ÀàĞÍÆ¥Åä´íÎó£¬\"" + msg + "\"Òª°ó¶¨µÄÀàĞÍÎª£º" + bindType + ",¶øÄ¿±êÀàĞÍÎª£º" + targetView.getClass();
+			String error = "ç±»å‹åŒ¹é…é”™è¯¯ï¼Œ\"" + msg + "\"è¦ç»‘å®šçš„ç±»å‹ä¸ºï¼š" + bindType + ",è€Œç›®æ ‡ç±»å‹ä¸ºï¼š" + targetView.getClass();
 			throw new ClassCastException(error);
 		}
 	}

@@ -15,17 +15,17 @@ import cn.xing.mypassword.app.BaseActivity;
 import cn.zdx.lib.annotation.FindViewById;
 
 /**
- * 关于界面
+ * 鍏充簬鐣岄潰
  * 
  * @author zengdexing
  * 
  */
 public class AboutActivity extends BaseActivity {
 
-	/** 源码地址 */
+	/** 婧愮爜鍦板潃 */
 	private static final String GITHUB_SOURCE = "https://github.com/o602075123/MyPassword";
 
-	/** 版本显示控件 */
+	/** 鐗堟湰鏄剧ず鎺т欢 */
 	@FindViewById(R.id.about_version)
 	private TextView textView;
 
@@ -36,14 +36,14 @@ public class AboutActivity extends BaseActivity {
 
 		initActionBar();
 
-		/** 显示版本 */
+		/** 鏄剧ず鐗堟湰 */
 		textView.setText(getMyApplication().getVersionName());
 
 		Log.d("DeviceInfo", getDeviceInfo(this));
 	}
 
 	/**
-	 * 获取友盟设备信息，将该设备添加为测试设备
+	 * 鑾峰彇鍙嬬洘璁惧淇℃伅锛屽皢璇ヨ澶囨坊鍔犱负娴嬭瘯璁惧
 	 * 
 	 * @param context
 	 * @return

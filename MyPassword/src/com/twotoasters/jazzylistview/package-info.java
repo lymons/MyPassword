@@ -1,5 +1,5 @@
 /**
- * 列表滑动特效,加入全部源码<br />
- * 由于项目不需要兼容android2.x版本，所以对该工程有改动，去掉了引入了的nineoldandroids
+ * 鍒楄〃婊戝姩鐗规晥,鍔犲叆鍏ㄩ儴婧愮爜<br />
+ * 鐢变簬椤圭洰涓嶉渶瑕佸吋瀹筧ndroid2.x鐗堟湰锛屾墍浠ュ璇ュ伐绋嬫湁鏀瑰姩锛屽幓鎺変簡寮曞叆浜嗙殑nineoldandroids
  */
 package com.twotoasters.jazzylistview;

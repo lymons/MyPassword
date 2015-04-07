@@ -23,14 +23,14 @@ import cn.xing.mypassword.service.Mainbinder;
 import cn.xing.mypassword.service.OnGetAllPasswordCallback;
 
 /**
- * ÃÜÂëµ¼³ö¶Ô»°¿ò
+ * å¯†ç å¯¼å‡ºå¯¹è¯æ¡†
  * 
  * @author zengdexing
  */
 public class ExportDialog extends ProgressDialog implements OnGetAllPasswordCallback {
 	private Mainbinder mainbinder;
 
-	/** µ¼³öÎÄ¼şÃûµÄ¸ñÊ½»¯ */
+	/** å¯¼å‡ºæ–‡ä»¶åçš„æ ¼å¼åŒ– */
 	private SimpleDateFormat fileNameFormat;
 
 	public ExportDialog(Context context, Mainbinder mainbinder) {
@@ -64,7 +64,7 @@ public class ExportDialog extends ProgressDialog implements OnGetAllPasswordCall
 		return getContext().getString(id);
 	}
 
-	/** »ñµÃ±¾µØÎÄ¼ş±£´æÃû */
+	/** è·å¾—æœ¬åœ°æ–‡ä»¶ä¿å­˜å */
 	private String getFileName() {
 		String fileName = fileNameFormat.format(new Date());
 
@@ -112,7 +112,7 @@ public class ExportDialog extends ProgressDialog implements OnGetAllPasswordCall
 			protected void runOnUIThread(AsyncResult<File> asyncResult) {
 				dismiss();
 				if (asyncResult.getResult() == 0) {
-					// µ¼³ö³É¹¦
+					// å¯¼å‡ºæˆåŠŸ
 					String msg = getContext().getString(R.string.export_successful, asyncResult.getData().getName());
 
 					Builder builder = new Builder(getContext());
@@ -122,7 +122,7 @@ public class ExportDialog extends ProgressDialog implements OnGetAllPasswordCall
 					dialog.setCanceledOnTouchOutside(false);
 					dialog.show();
 				} else {
-					// µ¼³öÊ§°Ü£¡
+					// å¯¼å‡ºå¤±è´¥ï¼
 					String msg = getContext().getString(R.string.toast_export_failed);
 					Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
 				}

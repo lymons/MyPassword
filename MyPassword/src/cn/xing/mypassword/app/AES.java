@@ -11,12 +11,12 @@ import android.annotation.SuppressLint;
 import android.util.Base64;
 
 /**
- * AES加密工具
+ * AES鍔犲瘑宸ュ叿
  */
 public class AES {
 
 	/**
-	 * AES加密
+	 * AES鍔犲瘑
 	 */
 	public static String encrypt(String cleartext, String seed) throws Exception {
 		byte[] rawKey = getRawKey(seed.getBytes());
@@ -25,7 +25,7 @@ public class AES {
 	}
 
 	/**
-	 * AES解密
+	 * AES瑙ｅ瘑
 	 */
 	public static String decrypt(String encrypted, String seed) throws Exception {
 		byte[] rawKey = getRawKey(seed.getBytes());

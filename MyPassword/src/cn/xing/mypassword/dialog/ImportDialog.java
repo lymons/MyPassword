@@ -22,7 +22,7 @@ import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.service.Mainbinder;
 
 /**
- * µ¼Èë¶Ô»°¿ò
+ * å¯¼å…¥å¯¹è¯æ¡†
  * 
  * @author zengdexing
  * 
@@ -47,7 +47,7 @@ public class ImportDialog extends ProgressDialog implements Callback {
 	}
 
 	/**
-	 * »ñÈ¡ÃÜÂë±£´æÄ¿Â¼
+	 * è·å–å¯†ç ä¿å­˜ç›®å½•
 	 * 
 	 * @return
 	 */
@@ -57,11 +57,11 @@ public class ImportDialog extends ProgressDialog implements Callback {
 	}
 
 	/**
-	 * ËÑË÷Ä¿Â¼ËùÓĞµÄ¡°mp¡±ÎÄ¼ş
+	 * æœç´¢ç›®å½•æ‰€æœ‰çš„â€œmpâ€æ–‡ä»¶
 	 * 
 	 * @param aFile
-	 *            ÒªËÑË÷µÄÎÄ¼ş¼Ğ
-	 * @return ¸ÃÎÄ¼ş¼ĞÏÂ±£´æµÄÎÄ¼ş
+	 *            è¦æœç´¢çš„æ–‡ä»¶å¤¹
+	 * @return è¯¥æ–‡ä»¶å¤¹ä¸‹ä¿å­˜çš„æ–‡ä»¶
 	 */
 	private ArrayList<SearchResult> searchFile(File aFile) {
 		ArrayList<SearchResult> searchResults = new ArrayList<SearchResult>();
@@ -80,7 +80,7 @@ public class ImportDialog extends ProgressDialog implements Callback {
 	}
 
 	/**
-	 * ÏÔÊ¾
+	 * æ˜¾ç¤º
 	 */
 	@Override
 	public void show() {
@@ -90,7 +90,7 @@ public class ImportDialog extends ProgressDialog implements Callback {
 	}
 
 	/**
-	 * ËÑË÷ÎÄ¼ş
+	 * æœç´¢æ–‡ä»¶
 	 */
 	private void searchFile() {
 		new AsyncSingleTask<ArrayList<SearchResult>>() {
@@ -111,13 +111,13 @@ public class ImportDialog extends ProgressDialog implements Callback {
 				dismiss();
 				final ArrayList<SearchResult> searchResults = asyncResult.getData();
 				if (searchResults.size() == 0) {
-					// ËÑË÷Ê§°Ü
+					// æœç´¢å¤±è´¥
 					Builder builder = new Builder(getContext());
 					builder.setMessage(getString(R.string.import_search_failed));
 					builder.setNegativeButton(R.string.import_sure, null);
 					builder.show();
 				} else {
-					// ËÑË÷³É¹¦£¬ÓÃ»§Ñ¡ÔñÎÄ¼ş
+					// æœç´¢æˆåŠŸï¼Œç”¨æˆ·é€‰æ‹©æ–‡ä»¶
 					Builder builder = new Builder(getContext());
 					builder.setTitle(R.string.import_chiose_file);
 					builder.setItems(getItems(searchResults), new OnClickListener() {
@@ -135,7 +135,7 @@ public class ImportDialog extends ProgressDialog implements Callback {
 	}
 
 	/**
-	 * searchResults×ª»¯ÎªString[]
+	 * searchResultsè½¬åŒ–ä¸ºString[]
 	 * 
 	 * @param searchResults
 	 * @return
@@ -148,15 +148,15 @@ public class ImportDialog extends ProgressDialog implements Callback {
 		return result;
 	}
 
-	/** ËÑË÷½á¹û */
+	/** æœç´¢ç»“æœ */
 	private static class SearchResult {
-		/** ÎÄ¼şÃû */
+		/** æ–‡ä»¶å */
 		String name;
-		/** ÎÄ¼şµÄ¾ø¶ÔÂ·¾¶ */
+		/** æ–‡ä»¶çš„ç»å¯¹è·¯å¾„ */
 		String absoluteFilePath;
 	}
 
-	/** µ¼ÈëÎÄ¼ş */
+	/** å¯¼å…¥æ–‡ä»¶ */
 	private void importFile(final SearchResult searchResult) {
 		new AsyncSingleTask<ArrayList<Password>>() {
 			@Override
@@ -180,7 +180,7 @@ public class ImportDialog extends ProgressDialog implements Callback {
 				} finally {
 					close(fileInputStream);
 				}
-				// ÑÓÊ±500ºÁÃë»Øµ÷½á¹û
+				// å»¶æ—¶500æ¯«ç§’å›è°ƒç»“æœ
 				setDelay(500);
 				return asyncResult;
 			}
@@ -189,7 +189,7 @@ public class ImportDialog extends ProgressDialog implements Callback {
 			protected void runOnUIThread(AsyncResult<ArrayList<Password>> asyncResult) {
 				dismiss();
 				if (asyncResult.getResult() == 0 && mainbinder != null) {
-					// µ¼ÈëÎÄ¼ş
+					// å¯¼å…¥æ–‡ä»¶
 					ArrayList<Password> passwords = asyncResult.getData();
 					for (Password password : passwords) {
 						mainbinder.insertPassword(password);
@@ -200,7 +200,7 @@ public class ImportDialog extends ProgressDialog implements Callback {
 					builder.setNegativeButton(R.string.import_sure, null);
 					builder.show();
 				} else {
-					// ¶ÁÈ¡ÎÄ¼şÊ§°Ü
+					// è¯»å–æ–‡ä»¶å¤±è´¥
 					Builder builder = new Builder(getContext());
 					builder.setMessage(getString(R.string.import_file_failed));
 					builder.setNegativeButton(R.string.import_sure, null);

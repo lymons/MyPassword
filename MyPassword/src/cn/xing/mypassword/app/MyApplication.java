@@ -16,7 +16,7 @@ import android.os.Looper;
 import cn.xing.mypassword.model.SettingKey;
 
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
-	/** ÅäÖÃÎÄ¼ş */
+	/** é…ç½®æ–‡ä»¶ */
 	private SharedPreferences sharedPreferences;
 	private Map<SettingKey, List<OnSettingChangeListener>> onSettingChangeListenerMap = new HashMap<SettingKey, List<OnSettingChangeListener>>();
 
@@ -34,12 +34,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	}
 
 	/**
-	 * »ñÈ¡ÉèÖÃ
+	 * è·å–è®¾ç½®
 	 * 
 	 * @param key
-	 *            ÉèÖÃkey
+	 *            è®¾ç½®key
 	 * @param defValue
-	 *            Ã»ÓĞ¸ÃÉèÖÃ½«Òª·µ»ØµÄÄ¬ÈÏÖµ
+	 *            æ²¡æœ‰è¯¥è®¾ç½®å°†è¦è¿”å›çš„é»˜è®¤å€¼
 	 * @return
 	 */
 	public String getSetting(SettingKey key, String defValue) {
@@ -47,26 +47,26 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	}
 
 	/**
-	 * ±£´æÉèÖÃ£¬µ÷ÓÃ¸Ã·½·¨ºó»á²úÉú
-	 * {@link OnSettingChangeListener#onSettingChange(SettingKey)}»Øµ÷¡£
+	 * ä¿å­˜è®¾ç½®ï¼Œè°ƒç”¨è¯¥æ–¹æ³•åä¼šäº§ç”Ÿ
+	 * {@link OnSettingChangeListener#onSettingChange(SettingKey)}å›è°ƒã€‚
 	 * 
 	 * @param key
-	 *            ÉèÖÃ±£´ækey
+	 *            è®¾ç½®ä¿å­˜key
 	 * @param value
-	 *            ĞèÒª±£´æµÄÖµ
+	 *            éœ€è¦ä¿å­˜çš„å€¼
 	 */
 	public void putSetting(SettingKey key, String value) {
 		sharedPreferences.edit().putString(key.name(), value).commit();
 	}
 
 	/**
-	 * ×¢²áÉèÖÃ¸Ä±ä¼àÌıÆ÷£¬¸Ã·½·¨±ØĞëÔÚÖ÷Ïß³ÌÖĞµ÷ÓÃ£¬ÇÒ²»ÓÃÊ±±ØĞëµ÷ÓÃ
+	 * æ³¨å†Œè®¾ç½®æ”¹å˜ç›‘å¬å™¨ï¼Œè¯¥æ–¹æ³•å¿…é¡»åœ¨ä¸»çº¿ç¨‹ä¸­è°ƒç”¨ï¼Œä¸”ä¸ç”¨æ—¶å¿…é¡»è°ƒç”¨
 	 * {@link #unregistOnSettingChangeListener(SettingKey, OnSettingChangeListener)}
 	 * 
 	 * @param key
-	 *            ĞèÒª¼àÌıµÄÉèÖÃÏî
+	 *            éœ€è¦ç›‘å¬çš„è®¾ç½®é¡¹
 	 * @param onSettingChangeListener
-	 *            ¼àÌı±ä»¯µÄ»Øµ÷
+	 *            ç›‘å¬å˜åŒ–çš„å›è°ƒ
 	 */
 	public void registOnSettingChangeListener(SettingKey key, OnSettingChangeListener onSettingChangeListener) {
 		checkUIThread();
@@ -82,14 +82,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	}
 
 	/**
-	 * ×¢ÏúÉèÖÃ±ä»¯¼àÌı£¬¸Ã·½·¨ºÍ
+	 * æ³¨é”€è®¾ç½®å˜åŒ–ç›‘å¬ï¼Œè¯¥æ–¹æ³•å’Œ
 	 * {@link #registOnSettingChangeListener(SettingKey, OnSettingChangeListener)}
-	 * ÅäÌ×Ê¹ÓÃ
+	 * é…å¥—ä½¿ç”¨
 	 * 
 	 * @param key
-	 *            ĞèÒª×¢ÏúµÄÉèÖÃÑ¡Ïî
+	 *            éœ€è¦æ³¨é”€çš„è®¾ç½®é€‰é¡¹
 	 * @param onSettingChangeListener
-	 *            ¼àÌıÆ÷
+	 *            ç›‘å¬å™¨
 	 */
 	public void unregistOnSettingChangeListener(SettingKey key, OnSettingChangeListener onSettingChangeListener) {
 		checkUIThread();
@@ -103,7 +103,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	}
 
 	/**
-	 * »ñÈ¡µ±Ç°°æ±¾ºÅ
+	 * è·å–å½“å‰ç‰ˆæœ¬å·
 	 */
 	public String getVersionName() {
 		PackageManager packageManager = getPackageManager();
@@ -119,7 +119,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	}
 
 	/**
-	 * »ñÈ¡µ±Ç°°æ±¾ºÅ
+	 * è·å–å½“å‰ç‰ˆæœ¬å·
 	 */
 	public int getVersionCode() {
 		PackageManager packageManager = getPackageManager();
@@ -136,11 +136,11 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 
 	private void checkUIThread() {
 		if (!isRunOnUIThread())
-			throw new RuntimeException("·½·¨Ö»ÄÜÔÚÖ÷Ïß³Ìµ÷ÓÃ£¡");
+			throw new RuntimeException("æ–¹æ³•åªèƒ½åœ¨ä¸»çº¿ç¨‹è°ƒç”¨ï¼");
 	}
 
 	/**
-	 * ÅĞ¶Ïµ±Ç°Ïß³ÌÊÇ·ñÊÇÖ÷Ïß³Ì
+	 * åˆ¤æ–­å½“å‰çº¿ç¨‹æ˜¯å¦æ˜¯ä¸»çº¿ç¨‹
 	 * 
 	 * @return
 	 */

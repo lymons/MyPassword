@@ -3,24 +3,24 @@ package cn.xing.mypassword.service;
 import cn.xing.mypassword.model.Password;
 
 /**
- * ÃÜÂë±ä»¯¼àÌıÆ÷
+ * å¯†ç å˜åŒ–ç›‘å¬å™¨
  * 
  * @author zengdexing
  * 
  */
 public interface OnPasswordChangeListener {
 	/**
-	 * ÓÃ»§Ôö¼ÓÁËĞÂµÄÃÜÂë
+	 * ç”¨æˆ·å¢åŠ äº†æ–°çš„å¯†ç 
 	 */
 	public void onNewPassword(Password password);
 
 	/**
-	 * ÃÜÂë±»É¾³ıÁË
+	 * å¯†ç è¢«åˆ é™¤äº†
 	 */
 	public void onDeletePassword(int id);
 
 	/**
-	 * ÃÜÂëµÄÊôĞÔ·¢Éú±ä»¯ÁË
+	 * å¯†ç çš„å±æ€§å‘ç”Ÿå˜åŒ–äº†
 	 */
 	public void onUpdatePassword(Password password);
 }

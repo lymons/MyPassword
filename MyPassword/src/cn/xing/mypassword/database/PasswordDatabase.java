@@ -16,14 +16,14 @@ import cn.xing.mypassword.model.PasswordGroup;
 import cn.xing.mypassword.model.SettingKey;
 
 /**
- * ±£´æËùÓĞµÄÃÜÂëÊı¾İ
+ * ä¿å­˜æ‰€æœ‰çš„å¯†ç æ•°æ®
  *
  */
 public class PasswordDatabase extends SQLiteOpenHelper {
 	private static final int version = 4;
 	private Context context;
 
-	/** AES¼ÓÃÜÃÜ³× */
+	/** AESåŠ å¯†å¯†åŒ™ */
 	private String currentPasswd;
 
 	public PasswordDatabase(Context context) {
@@ -65,14 +65,14 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 
 	/**
 	 * <p>
-	 * 1 ---> ³õÊ¼°æ±¾£¬º¬ÓĞÒ»¸ö±ípassword(id, create_date, title, user_name,
-	 * password£¬note)
+	 * 1 ---> åˆå§‹ç‰ˆæœ¬ï¼Œå«æœ‰ä¸€ä¸ªè¡¨password(id, create_date, title, user_name,
+	 * passwordï¼Œnote)
 	 * <p>
-	 * 2 ---> password±íÌí¼Óis_top×Ö¶Î£¬Ä¬ÈÏÖµÎªÁã£¬±íÊ¾²»ÖÃ¶¥
+	 * 2 ---> passwordè¡¨æ·»åŠ is_topå­—æ®µï¼Œé»˜è®¤å€¼ä¸ºé›¶ï¼Œè¡¨ç¤ºä¸ç½®é¡¶
 	 * <p>
-	 * 3 --->password±íÌí¼Ógroup_name×Ö¶Î£¬±íÊ¾·Ö×é£¬Ä¬ÈÏÖµ£ºÄ¬ÈÏ£»Ôö¼Ógroup(name)±í£¬Ôö¼Ó·Ö×é¹¦ÄÜ
+	 * 3 --->passwordè¡¨æ·»åŠ group_nameå­—æ®µï¼Œè¡¨ç¤ºåˆ†ç»„ï¼Œé»˜è®¤å€¼ï¼šé»˜è®¤ï¼›å¢åŠ group(name)è¡¨ï¼Œå¢åŠ åˆ†ç»„åŠŸèƒ½
 	 * <p>
-	 * 4 --->¶ÔÃÜÂë½øĞĞ¼ÓÃÜ
+	 * 4 --->å¯¹å¯†ç è¿›è¡ŒåŠ å¯†
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -93,9 +93,9 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 		}
 	}
 
-	// µÚËÄ´ÎÉı¼¶£¬ ¼ÓÃÜÊı¾İ¿âµÄËùÓĞÃÜÂë
+	// ç¬¬å››æ¬¡å‡çº§ï¼Œ åŠ å¯†æ•°æ®åº“çš„æ‰€æœ‰å¯†ç 
 	private void upgradeFor4(SQLiteDatabase db) {
-		// È¡³öÊı¾İ¿âÖĞµÄËùÓĞÃÜÂë
+		// å–å‡ºæ•°æ®åº“ä¸­çš„æ‰€æœ‰å¯†ç 
 		List<Password> passwords = new ArrayList<Password>();
 		Cursor cursor = null;
 		try {
@@ -113,7 +113,7 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 			if (cursor != null)
 				cursor.close();
 		}
-		// ¶ÔÃÜÂë¼ÓÃÜºó£¬±£´æÊı¾İ
+		// å¯¹å¯†ç åŠ å¯†åï¼Œä¿å­˜æ•°æ®
 		for (Password password : passwords) {
 			ContentValues contentValues = new ContentValues();
 			contentValues.put("password", encrypt(password.getPassword()));
@@ -122,11 +122,11 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * ²åÈëÒ»ÌõÊı¾İ
+	 * æ’å…¥ä¸€æ¡æ•°æ®
 	 * 
 	 * @param password
-	 *            Òª²åÈëµÄÖµ
-	 * @return ·µ»ØÕâÌõÊı¾İµÄ×ÔÔöÖ÷¼ü Èç¹û²åÈëÊ§°Ü£¬·µ»Ø-1
+	 *            è¦æ’å…¥çš„å€¼
+	 * @return è¿”å›è¿™æ¡æ•°æ®çš„è‡ªå¢ä¸»é”® å¦‚æœæ’å…¥å¤±è´¥ï¼Œè¿”å›-1
 	 */
 	public long insertPassword(Password password) {
 		long id = -1;
@@ -148,19 +148,19 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * ¸üĞÂÊı¾İ
+	 * æ›´æ–°æ•°æ®
 	 * 
 	 * <pre>
-	 * // ¸üĞÂÃÜÂë
+	 * // æ›´æ–°å¯†ç 
 	 * <code>
 	 * Password password = new Password();
 	 * password.setId(123);
-	 * password.setPassword(&quot;ĞÂµÄÃÜÂë&quot;);
+	 * password.setPassword(&quot;æ–°çš„å¯†ç &quot;);
 	 * passwordDatabase.updatePassword(password);
 	 * </code>
 	 * @param password
-	 *            ¸üĞÂµÄÊı¾İ£¬Ö»ĞèÒªÉèÖÃÏàÓ¦µÄ¸üĞÂÏî,±ØĞëÓĞidÊôĞÔ
-	 * @return Ó°ÏìµÄĞĞÊı the number of rows affected
+	 *            æ›´æ–°çš„æ•°æ®ï¼Œåªéœ€è¦è®¾ç½®ç›¸åº”çš„æ›´æ–°é¡¹,å¿…é¡»æœ‰idå±æ€§
+	 * @return å½±å“çš„è¡Œæ•° the number of rows affected
 	 */
 	public int updatePassword(Password password) {
 		int result = 0;
@@ -192,10 +192,10 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * ¸ù¾İid²éÑ¯Êı¾İ¿âÖĞµÄÃÜÂëĞÅÏ¢
+	 * æ ¹æ®idæŸ¥è¯¢æ•°æ®åº“ä¸­çš„å¯†ç ä¿¡æ¯
 	 * 
 	 * @param id
-	 * @return ²éÑ¯µ½ÃÜÂëĞÅÏ¢£¬Èç¹ûÃ»ÓĞ¸ÃÊı¾İ£¬·µ»Ønull
+	 * @return æŸ¥è¯¢åˆ°å¯†ç ä¿¡æ¯ï¼Œå¦‚æœæ²¡æœ‰è¯¥æ•°æ®ï¼Œè¿”å›null
 	 */
 	public Password getPassword(int id) {
 		Password password = null;
@@ -234,9 +234,9 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * »ñµÃÊı¾İ¿âÖĞ±£´æµÄËùÓĞÃÜÂëĞÅÏ¢
+	 * è·å¾—æ•°æ®åº“ä¸­ä¿å­˜çš„æ‰€æœ‰å¯†ç ä¿¡æ¯
 	 * 
-	 * @return ·µ»ØÊı¾İ£¬ÎªÒ»¸öÊı×é
+	 * @return è¿”å›æ•°æ®ï¼Œä¸ºä¸€ä¸ªæ•°ç»„
 	 */
 	public List<Password> getAllPassword() {
 		List<Password> passwords = new ArrayList<Password>();
@@ -264,10 +264,10 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * É¾³ıÒ»ÌõÊı¾İ
+	 * åˆ é™¤ä¸€æ¡æ•°æ®
 	 * 
 	 * @param id
-	 *            É¾³ıµÄid
+	 *            åˆ é™¤çš„id
 	 * @return the number of rows affected if a whereClause is passed in, 0
 	 *         otherwise. To remove all rows and get a count pass "1" as the
 	 *         whereClause.
@@ -280,11 +280,11 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * ¸ù¾İgroupName»ñµÃÊı¾İ¿âÖĞ±£´æµÄ¸Ã·Ö×éÏÂËùÓĞµÄÃÜÂë
+	 * æ ¹æ®groupNameè·å¾—æ•°æ®åº“ä¸­ä¿å­˜çš„è¯¥åˆ†ç»„ä¸‹æ‰€æœ‰çš„å¯†ç 
 	 * 
 	 * @param groupName
-	 *            ·Ö×éÃû
-	 * @return ·µ»ØÊı¾İ£¬ÎªÒ»¸öÊı×é
+	 *            åˆ†ç»„å
+	 * @return è¿”å›æ•°æ®ï¼Œä¸ºä¸€ä¸ªæ•°ç»„
 	 */
 	public List<Password> getAllPasswordByGroupName(String groupName) {
 		List<Password> passwords = new ArrayList<Password>();
@@ -313,7 +313,7 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * Êı¾İ¿âÖĞÌí¼ÓÃÜÂë·Ö×é
+	 * æ•°æ®åº“ä¸­æ·»åŠ å¯†ç åˆ†ç»„
 	 * 
 	 * @param passwordGroup
 	 */
@@ -329,7 +329,7 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * »ñÈ¡Êı¾İ¿âÖĞµÄËùÓĞ·Ö×é
+	 * è·å–æ•°æ®åº“ä¸­çš„æ‰€æœ‰åˆ†ç»„
 	 * 
 	 * @return
 	 */
@@ -356,12 +356,12 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * ¸üĞÂ×éÃû×Ö
+	 * æ›´æ–°ç»„åå­—
 	 * 
 	 * @param oldGroupName
-	 *            ¾ÉÃû×Ö
+	 *            æ—§åå­—
 	 * @param newGroupName
-	 *            ĞÂµÄÃû×Ö
+	 *            æ–°çš„åå­—
 	 */
 	public void updatePasswdGroupName(String oldGroupName, String newGroupName) {
 		SQLiteDatabase sqLiteDatabase = getWritableDatabase();
@@ -370,10 +370,10 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 			rawQuery = sqLiteDatabase.rawQuery("select count(name) from password_group where name = ?",
 					new String[] { newGroupName });
 			if (rawQuery != null && rawQuery.moveToNext() && rawQuery.getInt(0) == 1) {
-				// ĞÂµÄ·Ö×éÒÑ¾­´æÔÚ Ö±½ÓÉ¾³ı¾ÉµÄ·Ö×é
+				// æ–°çš„åˆ†ç»„å·²ç»å­˜åœ¨ ç›´æ¥åˆ é™¤æ—§çš„åˆ†ç»„
 				sqLiteDatabase.delete("password_group", "name = ?", new String[] { oldGroupName });
 			} else {
-				// ĞÂµÄ·Ö×é²»´æÔÚ£¬ ¸üĞÂ¾ÉµÄ·Ö×éÃû³Æ
+				// æ–°çš„åˆ†ç»„ä¸å­˜åœ¨ï¼Œ æ›´æ–°æ—§çš„åˆ†ç»„åç§°
 				ContentValues contentValues = new ContentValues();
 				contentValues.put("name", newGroupName);
 				sqLiteDatabase.update("password_group", contentValues, "name = ?", new String[] { oldGroupName });
@@ -408,7 +408,7 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 		this.currentPasswd = currentPasswd;
 	}
 
-	/** ¼ÓÃÜ */
+	/** åŠ å¯† */
 	public String encrypt(String key) {
 		String result = "";
 		try {
@@ -420,7 +420,7 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 		return result;
 	}
 
-	/** ½âÃÜ */
+	/** è§£å¯† */
 	public String decrypt(String data) {
 		return decrypt(data, currentPasswd);
 	}
@@ -436,12 +436,12 @@ public class PasswordDatabase extends SQLiteOpenHelper {
 		return result;
 	}
 
-	/** ÓÃ»§ÊÖÊÆ±ä»¯ºó£¬ÖØĞÂ¼ÓÃÜÊı¾İ¿â±£´æµÄÃÜÂë */
+	/** ç”¨æˆ·æ‰‹åŠ¿å˜åŒ–åï¼Œé‡æ–°åŠ å¯†æ•°æ®åº“ä¿å­˜çš„å¯†ç  */
 	public void encodePasswd(String newPasswd) {
 		SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 		List<Password> passwords = new ArrayList<Password>();
 
-		// »ñÈ¡Êı¾İ¿âËùÓĞµÄÃÜÂë
+		// è·å–æ•°æ®åº“æ‰€æœ‰çš„å¯†ç 
 		Cursor cursor = null;
 		try {
 			cursor = sqLiteDatabase.rawQuery("select id, password from password", null);

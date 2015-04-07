@@ -21,7 +21,7 @@ import cn.xing.mypassword.view.LockPatternView.OnPatternListener;
 import cn.zdx.lib.annotation.FindViewById;
 
 /**
- * ÉèÖÃÍ¼°¸½âËø½çÃæ
+ * è®¾ç½®å›¾æ¡ˆè§£é”ç•Œé¢
  * 
  * @author zengdexing
  * 
@@ -33,11 +33,11 @@ public class SetLockpatternActivity extends BaseActivity implements OnPatternLis
 	@FindViewById(R.id.set_lockpattern_text)
 	private TextView textView;
 
-	/** Ä£Ê½ ÈÏÖ¤ */
+	/** æ¨¡å¼ è®¤è¯ */
 	private static final int MODE_AUTH = 0;
-	/** Ä£Ê½ ´¦ÓÚµÚÒ»²½ */
+	/** æ¨¡å¼ å¤„äºç¬¬ä¸€æ­¥ */
 	private static final int MODE_FIRST_STEP = 1;
-	/** Ä£Ê½ ´¦ÓÚµÚ¶ş²½ */
+	/** æ¨¡å¼ å¤„äºç¬¬äºŒæ­¥ */
 	private static final int MODE_SECOND_STEP = 2;
 
 	private static final int MEG_AUTH_ERROR = 1;
@@ -45,7 +45,7 @@ public class SetLockpatternActivity extends BaseActivity implements OnPatternLis
 	private static final int MEG_SET_SUCCESS = 3;
 	private static final int MEG_GOTO_FIRST_STEP = 4;
 
-	/** µ±Ç°´¦ÓÚµÄÄ£Ê½ */
+	/** å½“å‰å¤„äºçš„æ¨¡å¼ */
 	private int mode = MODE_AUTH;
 	private Handler handler = new Handler(this);
 
@@ -59,7 +59,7 @@ public class SetLockpatternActivity extends BaseActivity implements OnPatternLis
 	}
 
 	/**
-	 * ³õÊ¼»¯Ä£Ê½£ºÈç¹ûÓÃ»§Ã»ÓĞÉèÖÃÃÜÂë£¬Ôò´¦ÓÚµÚÒ»²½ {@link #MODE_FIRST_STEP}£¬·ñÔòÓÃ»§ĞèÒªÑéÖ¤
+	 * åˆå§‹åŒ–æ¨¡å¼ï¼šå¦‚æœç”¨æˆ·æ²¡æœ‰è®¾ç½®å¯†ç ï¼Œåˆ™å¤„äºç¬¬ä¸€æ­¥ {@link #MODE_FIRST_STEP}ï¼Œå¦åˆ™ç”¨æˆ·éœ€è¦éªŒè¯
 	 * {@link #MODE_AUTH}
 	 */
 	private void initMode() {
@@ -74,7 +74,7 @@ public class SetLockpatternActivity extends BaseActivity implements OnPatternLis
 		}
 	}
 
-	/** µÚÒ»´ÎÊ¹ÓÃ£¬ÉèÖÃ½âËøÍ¼°¸ */
+	/** ç¬¬ä¸€æ¬¡ä½¿ç”¨ï¼Œè®¾ç½®è§£é”å›¾æ¡ˆ */
 	private void showFirstUserDialog() {
 		Builder builder = new Builder(this);
 		builder.setMessage(R.string.set_lock_pattern_first_message);
@@ -110,13 +110,13 @@ public class SetLockpatternActivity extends BaseActivity implements OnPatternLis
 		switch (mode) {
 			case MODE_AUTH:
 				if (LockPatternUtil.authPatternCell(this, pattern)) {
-					// ÑéÖ¤Í¨¹ı£¬µ½µÚÒ»²½
+					// éªŒè¯é€šè¿‡ï¼Œåˆ°ç¬¬ä¸€æ­¥
 					lockPatternView.setDisplayMode(DisplayMode.Correct);
 					lockPatternView.setEnabled(false);
 					textView.setText(R.string.set_lock_pattern_auth_ok);
 					handler.sendEmptyMessageDelayed(4, 1000);
 				} else {
-					// ÑéÖ¤²»Í¨¹ı£¬¼ÌĞøÊäÈëÃÜÂë
+					// éªŒè¯ä¸é€šè¿‡ï¼Œç»§ç»­è¾“å…¥å¯†ç 
 					lockPatternView.setEnabled(false);
 					lockPatternView.setDisplayMode(DisplayMode.Wrong);
 					textView.setText(R.string.set_lock_pattern_auth_error);
@@ -124,7 +124,7 @@ public class SetLockpatternActivity extends BaseActivity implements OnPatternLis
 				}
 				break;
 			case MODE_FIRST_STEP:
-				// µÚÒ»´ÎÊäÈë£¬¼ÇÂ¼
+				// ç¬¬ä¸€æ¬¡è¾“å…¥ï¼Œè®°å½•
 				lockPatternView.setEnabled(false);
 				lastCells = new ArrayList<LockPatternView.Cell>(pattern);
 				textView.setText(R.string.set_lock_pattern_first_step_tips);
@@ -132,14 +132,14 @@ public class SetLockpatternActivity extends BaseActivity implements OnPatternLis
 				break;
 			case MODE_SECOND_STEP:
 				if (LockPatternUtil.checkPatternCell(lastCells, pattern)) {
-					// ÉèÖÃ³É¹¦
+					// è®¾ç½®æˆåŠŸ
 					lockPatternView.setEnabled(false);
 					lockPatternView.setDisplayMode(DisplayMode.Correct);
 					textView.setText(R.string.set_lock_pattern_second_step_tips);
 					handler.sendEmptyMessageDelayed(MEG_SET_SUCCESS, 2000);
 					LockPatternUtil.savePatternCell(this, pattern);
 				} else {
-					// Á½´ÎÊäÈëÃÜÂë²»Ò»ÖÂ£¬µ½µÚÒ»²½ÖØĞÂÊäÈë
+					// ä¸¤æ¬¡è¾“å…¥å¯†ç ä¸ä¸€è‡´ï¼Œåˆ°ç¬¬ä¸€æ­¥é‡æ–°è¾“å…¥
 					lockPatternView.setDisplayMode(DisplayMode.Wrong);
 					lockPatternView.setEnabled(false);
 					textView.setText(R.string.set_lock_pattern_second_step_error);

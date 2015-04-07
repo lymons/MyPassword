@@ -43,11 +43,11 @@ public class PasswordGroupAdapter extends BaseAdapter {
 	}
 
 	/**
-	 * 移除密码分组
+	 * 绉婚櫎瀵嗙爜鍒嗙粍
 	 * 
 	 * @param passwordGroupName
-	 *            密码分组名字
-	 * @return 是否移除成功
+	 *            瀵嗙爜鍒嗙粍鍚嶅瓧
+	 * @return 鏄惁绉婚櫎鎴愬姛
 	 */
 	public boolean removePasswordGroup(String passwordGroupName) {
 		boolean result = false;
