@@ -14,6 +14,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 import cn.xing.mypassword.activity.EntryActivity;
 import cn.xing.mypassword.model.SettingKey;
+import cn.xing.mypassword.utils.StringRandom;
 import cn.zdx.lib.annotation.FindViewById;
 import cn.zdx.lib.annotation.ViewFinder;
 import cn.zdx.lib.annotation.XingAnnotationHelper;
@@ -26,12 +27,18 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class BaseActivity extends Activity {
     
+    public static final long MAX_NO_PASS_TIME = 1000*60;
+    protected static long timeAtIntoBackground;
+    
     protected BroadcastReceiver actionCloseBroadcastReceiver = null;
     protected void creatActionCloseBroadcastReceiver() {
         actionCloseBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                ((MyApplication)getApplication()).setAlreadyLeftFromForeground(true);
+                if (((MyApplication)getApplication()).isAlreadyLeftFromForeground() == false) {
+                    ((MyApplication)getApplication()).setAlreadyLeftFromForeground(true);
+                    timeAtIntoBackground = System.currentTimeMillis();
+                }
             }
         };
     }
@@ -41,7 +48,10 @@ public class BaseActivity extends Activity {
         actionScreenOffBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                ((MyApplication)getApplication()).setAlreadyLeftFromForeground(true);
+                if (((MyApplication)getApplication()).isAlreadyLeftFromForeground() == false) {
+                    ((MyApplication)getApplication()).setAlreadyLeftFromForeground(true);
+                    timeAtIntoBackground = System.currentTimeMillis();
+                }
             }
         };
     }
@@ -71,12 +81,16 @@ public class BaseActivity extends Activity {
 		super.onResume();
 		MobclickAgent.onResume(this);
 		
-		if (((MyApplication)getApplication()).isAlreadyLeftFromForeground()) {
-		    ((MyApplication)getApplication()).setAlreadyLeftFromForeground(false);
+		long currentTime = System.currentTimeMillis();
+		if (((MyApplication)getApplication()).isAlreadyLeftFromForeground() && 
+		        timeAtIntoBackground > 0 && 
+		        (currentTime - timeAtIntoBackground) > MAX_NO_PASS_TIME) {
             Intent it = new Intent(this, EntryActivity.class);
             it.putExtra(EntryActivity.KEY_LOAD_AUTO, true);
             startActivity(it);
         }
+		((MyApplication)getApplication()).setAlreadyLeftFromForeground(false);
+		timeAtIntoBackground = 0;
 	}
 
 	@Override
@@ -124,7 +138,7 @@ public class BaseActivity extends Activity {
 	public void putSetting(SettingKey key, String value) {
 		getMyApplication().putSetting(key, value);
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
