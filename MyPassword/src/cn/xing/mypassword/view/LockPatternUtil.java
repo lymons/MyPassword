@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.xing.mypassword.app.BaseActivity;
+import cn.xing.mypassword.app.MyApplication;
 import cn.xing.mypassword.model.SettingKey;
 import cn.xing.mypassword.view.LockPatternView.Cell;
 
@@ -21,7 +22,7 @@ public class LockPatternUtil {
 				jsonObject.put("column", cell.getColumn());
 				jsonArray.put(jsonObject);
 			}
-			baseActivity.putSetting(SettingKey.LOCK_PATTERN, jsonArray.toString());
+			((MyApplication)baseActivity.getApplication()).putSettingEncode(SettingKey.LOCK_PATTERN, jsonArray.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -30,7 +31,7 @@ public class LockPatternUtil {
 	public static List<Cell> getLocalCell(BaseActivity baseActivity) {
 		List<Cell> cells = new ArrayList<Cell>();
 
-		String JSONArrayString = baseActivity.getSetting(SettingKey.LOCK_PATTERN, "[]");
+		String JSONArrayString = ((MyApplication)baseActivity.getApplication()).getSettingDecode(SettingKey.LOCK_PATTERN, "[]");
 
 		try {
 			JSONArray jsonArray = new JSONArray(JSONArrayString);

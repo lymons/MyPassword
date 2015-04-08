@@ -29,7 +29,7 @@ public class Mainbinder extends Binder {
 		@Override
 		public void onSettingChange(SettingKey key) {
 			// 用户密码变化了，重新解密后再加密
-			encodePasswd(myApplication.getSetting(SettingKey.LOCK_PATTERN, "[]"));
+			encodePasswd(myApplication.getSettingDecode(SettingKey.LOCK_PATTERN, "[]"));
 		}
 	};
 
@@ -47,7 +47,7 @@ public class Mainbinder extends Binder {
 	public Mainbinder(Context context, MyApplication myApplication) {
 		passwordDatabase = new PasswordDatabase(context);
 		this.myApplication = myApplication;
-		final String passwd = myApplication.getSetting(SettingKey.LOCK_PATTERN, "[]");
+		final String passwd = myApplication.getSettingDecode(SettingKey.LOCK_PATTERN, "[]");
 		myApplication.registOnSettingChangeListener(SettingKey.LOCK_PATTERN, onSettingChangeListener);
 		// 线程安全
 		new AsyncSingleTask<Void>() {

@@ -58,6 +58,29 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	public void putSetting(SettingKey key, String value) {
 		sharedPreferences.edit().putString(key.name(), value).commit();
 	}
+	
+	public void putSettingEncode(SettingKey key, String value) {
+        try {
+            String encodeVaule = AES.encrypt(value);
+            putSetting(key, encodeVaule);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    public String getSettingDecode(SettingKey key, String defValue) {
+        try {
+            
+            String value = getSetting(key, defValue);
+            String encodeVaule = AES.decrypt(value);
+            return encodeVaule;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return defValue;
+    }
 
 	/**
 	 * 注册设置改变监听器，该方法必须在主线程中调用，且不用时必须调用
