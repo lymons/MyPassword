@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import cn.xing.mypassword.R;
-import cn.xing.mypassword.app.BaseActivity;
 import cn.zdx.lib.annotation.FindViewById;
 
 /**

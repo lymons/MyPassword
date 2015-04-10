@@ -1,4 +1,4 @@
-package cn.xing.mypassword.activity;
+package cn.xing.mypassword.activity.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import cn.xing.mypassword.R;
+import cn.xing.mypassword.activity.BaseActivity;
 import cn.xing.mypassword.adapter.PasswordGroupAdapter;
-import cn.xing.mypassword.app.BaseActivity;
 import cn.xing.mypassword.dialog.GreatePasswordGroupDialog;
 import cn.xing.mypassword.dialog.UpdatePasswdGroupNameDialog;
 import cn.xing.mypassword.model.PasswordGroup;

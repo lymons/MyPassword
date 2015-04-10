@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import cn.xing.mypassword.R;
-import cn.xing.mypassword.app.BaseActivity;
 import cn.zdx.lib.annotation.FindViewById;
 import cn.zdx.xing.feedback.Feedback;
 

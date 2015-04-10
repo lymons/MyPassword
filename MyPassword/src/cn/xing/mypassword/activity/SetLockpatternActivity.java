@@ -12,7 +12,6 @@ import android.os.Handler.Callback;
 import android.os.Message;
 import android.widget.TextView;
 import cn.xing.mypassword.R;
-import cn.xing.mypassword.app.BaseActivity;
 import cn.xing.mypassword.view.LockPatternUtil;
 import cn.xing.mypassword.view.LockPatternView;
 import cn.xing.mypassword.view.LockPatternView.Cell;

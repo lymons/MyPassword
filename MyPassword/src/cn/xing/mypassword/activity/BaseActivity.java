@@ -1,4 +1,4 @@
-package cn.xing.mypassword.app;
+package cn.xing.mypassword.activity;
 
 import java.lang.reflect.Field;
 
@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
-import cn.xing.mypassword.activity.EntryActivity;
+import cn.xing.mypassword.app.MyApplication;
 import cn.xing.mypassword.model.SettingKey;
 import cn.zdx.lib.annotation.FindViewById;
 import cn.zdx.lib.annotation.ViewFinder;

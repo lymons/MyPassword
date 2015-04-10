@@ -1,4 +1,4 @@
-package cn.xing.mypassword.activity;
+package cn.xing.mypassword.activity.fragment;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import cn.xing.mypassword.R;
+import cn.xing.mypassword.activity.EditPasswordActivity;
 import cn.xing.mypassword.adapter.PasswordListAdapter;
-import cn.xing.mypassword.app.BaseFragment;
 import cn.xing.mypassword.app.OnSettingChangeListener;
 import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.model.SettingKey;

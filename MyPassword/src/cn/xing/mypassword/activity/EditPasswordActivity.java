@@ -28,7 +28,6 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import cn.xing.mypassword.R;
-import cn.xing.mypassword.app.BaseActivity;
 import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.model.PasswordGroup;
 import cn.xing.mypassword.service.MainService;

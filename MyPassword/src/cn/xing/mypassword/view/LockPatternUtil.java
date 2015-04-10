@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.xing.mypassword.app.BaseActivity;
+import cn.xing.mypassword.activity.BaseActivity;
 import cn.xing.mypassword.app.MyApplication;
 import cn.xing.mypassword.model.SettingKey;
 import cn.xing.mypassword.view.LockPatternView.Cell;

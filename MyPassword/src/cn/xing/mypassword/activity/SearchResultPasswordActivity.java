@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import cn.xing.mypassword.R;
-import cn.xing.mypassword.app.BaseActivity;
 
 public class SearchResultPasswordActivity extends BaseActivity {
     private MyFragment current = null;

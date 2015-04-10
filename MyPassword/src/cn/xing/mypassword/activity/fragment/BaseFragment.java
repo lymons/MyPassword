@@ -1,5 +1,6 @@
-package cn.xing.mypassword.app;
+package cn.xing.mypassword.activity.fragment;
 
+import cn.xing.mypassword.activity.BaseActivity;
 import android.app.Fragment;
 import android.os.Bundle;
 
