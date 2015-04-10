@@ -21,6 +21,7 @@ public class PasswordDialog extends Dialog {
 
     private Mainbinder mainbinder;
     private Password password;
+    private Context myContext;
     
     @FindViewById(R.id.btn_close)
     private View closeButton;
@@ -32,6 +33,7 @@ public class PasswordDialog extends Dialog {
                         | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         this.mainbinder = mainbinder;
         this.password = p;
+        this.myContext = context;
         setCancelable(true);
         setCanceledOnTouchOutside(true);
     }
@@ -52,7 +54,7 @@ public class PasswordDialog extends Dialog {
                 dismiss();
             }
         });
-        ViewHolder viewHolder = new ViewHolder(getContext(), password.getGroupName(), mainbinder);
+        ViewHolder viewHolder = new ViewHolder(myContext, password.getGroupName(), mainbinder);
         XingAnnotationHelper.findView(viewHolder, ViewFinder.create(this));
         viewHolder.copyView.setOnClickListener(viewHolder);
         viewHolder.deleteView.setOnClickListener(viewHolder);
