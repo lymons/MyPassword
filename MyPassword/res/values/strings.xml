@@ -24,6 +24,9 @@
     <string name="title_activity_add_password">添 加</string>
     <string name="title_activity_modify_password">修 改</string>
     <string name="title_activity_feedback">意见反馈</string>
+    <string name="search_result">搜索结果</string>
+    <string name="search_label">search_password</string>
+	<string name="search_hint">请输入搜索的标题名称</string>
     <string name="action_save">保存</string>
     <string name="action_more">设置</string>
     <string name="action_import_and_export">密码导入导出</string>

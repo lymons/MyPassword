@@ -1,11 +1,16 @@
 package cn.xing.mypassword.activity;
 
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.AlertDialog.Builder;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ListFragment;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,18 +24,29 @@ import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnCloseListener;
+import android.widget.SearchView.OnQueryTextListener;
 import cn.xing.mypassword.R;
 import cn.xing.mypassword.activity.PasswordGroupFragment.OnPasswordGroupSelected;
 import cn.xing.mypassword.app.BaseActivity;
 import cn.xing.mypassword.dialog.ExportDialog;
 import cn.xing.mypassword.dialog.ImportDialog;
+import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.model.SettingKey;
 import cn.xing.mypassword.service.MainService;
 import cn.xing.mypassword.service.Mainbinder;
+import cn.xing.mypassword.service.OnGetAllPasswordCallback;
 import cn.zdx.lib.annotation.FindViewById;
 
 import com.umeng.analytics.MobclickAgent;
@@ -42,7 +58,7 @@ import com.umeng.update.UmengUpdateAgent;
  * @author zengdexing
  * 
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnQueryTextListener, OnCloseListener, OnActionExpandListener {
 	/** 数据源 */
 	private Mainbinder mainbinder;
 	private long lastBackKeyTime;
@@ -54,9 +70,12 @@ public class MainActivity extends BaseActivity {
 
 	private PasswordListFragment passwordListFragment;
 	private PasswordGroupFragment passwordGroupFragment;
+	private SearchListFragment searchListFragment;
 
 	@FindViewById(R.id.navigation_drawer)
 	private View drawerView;
+	
+	private boolean isRecoveriedFromSearch;
 
 	private OnPasswordGroupSelected onPasswordGroupSelected = new OnPasswordGroupSelected() {
 		@Override
@@ -129,6 +148,7 @@ public class MainActivity extends BaseActivity {
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
+			    onClose();
 				super.onDrawerClosed(drawerView);
 				getActivity().invalidateOptionsMenu();
 				if (passwordListFragment != null && !passwordListFragment.getPasswordGroupName().equals(""))
@@ -156,6 +176,8 @@ public class MainActivity extends BaseActivity {
 				lastGroupName = getString(R.string.app_name);
 			getActionBar().setTitle(lastGroupName);
 		}
+		
+		isRecoveriedFromSearch = true;
 	}
 
 	@Override
@@ -229,7 +251,8 @@ public class MainActivity extends BaseActivity {
 				// 退出
 				finish();
 				break;
-
+			case R.id.menu_search:
+			    break;
 			default:
 				break;
 		}
@@ -242,7 +265,10 @@ public class MainActivity extends BaseActivity {
 			getMenuInflater().inflate(R.menu.main, menu);
 			return true;
 		} else {
-			return super.onCreateOptionsMenu(menu);
+//			return super.onCreateOptionsMenu(menu);
+			getMenuInflater().inflate(R.menu.group_password, menu);
+			setUpSearchView(menu);
+			return true;
 		}
 	}
 
@@ -264,6 +290,29 @@ public class MainActivity extends BaseActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	
+	private void setUpSearchView(Menu menu){
+	    MenuItem mi = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) mi.getActionView();
+        if(searchView == null){
+            return;
+        }
+        searchView.setIconifiedByDefault(true);
+        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnCloseListener(this);
+        mi.setOnActionExpandListener(this);
+        
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        ComponentName cn = new ComponentName(this, SearchResultPasswordActivity.class);
+//        
+//        SearchableInfo info = searchManager.getSearchableInfo(cn);
+//        if(info == null){
+//            return;
+//        }
+//        
+//        searchView.setSearchableInfo(info);
+    }
 
 	private void onEffectClick() {
 		if (getSetting(SettingKey.JAZZY_EFFECT_INTRODUCTION, "false").equals("false")) {
@@ -302,5 +351,146 @@ public class MainActivity extends BaseActivity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("effect", effect);
 		MobclickAgent.onEvent(getActivity(), "effect", map);
+	}
+	
+	/**
+	 * SearchViewに入力するたびに入力される
+	 */
+	@Override
+	public boolean onQueryTextChange(String newText) {
+	    if (TextUtils.isEmpty(newText)) {
+	        onClose();
+	    } else {
+	        showSearchResultFragment();
+	        if (searchListFragment != null && searchListFragment.isVisible()) {
+	            searchListFragment.setFilter(newText.toString());
+	        }
+	    }
+        
+	    return true;
+	}
+	 
+	/**
+	 * SearchViewのSubmitを押下したときに呼び出される
+	 */
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+	    return false;
+	}
+	
+	@Override
+    public boolean onClose() {
+	    if (isRecoveriedFromSearch) {
+            return false;
+        }
+	    isRecoveriedFromSearch = true;
+	    
+	    FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = fragmentManager.findFragmentByTag("SearchListFragment");
+        if (fragment != null) {
+            fragmentTransaction.hide(fragment);
+        }
+        fragmentTransaction.show(passwordGroupFragment);
+        fragmentTransaction.commitAllowingStateLoss();
+        
+	    return false;
+	}
+	
+	@Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        onClose();
+        return true;
+    }
+    
+    private void showSearchResultFragment() {
+        if (isRecoveriedFromSearch == false) {
+            return;
+        }
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = fragmentManager.findFragmentByTag("PasswordGroupFragment");
+        if (fragment != null) {
+            fragmentTransaction.hide(fragment);
+        }
+        searchListFragment = (SearchListFragment) fragmentManager.findFragmentByTag("SearchListFragment");
+        if (searchListFragment == null || searchListFragment.isAdded() == false) {
+            searchListFragment = new SearchListFragment();
+            fragmentTransaction.add(R.id.navigation_drawer, searchListFragment, "SearchListFragment");
+        }
+        fragmentTransaction.show(searchListFragment);
+        fragmentTransaction.commitAllowingStateLoss();
+        isRecoveriedFromSearch = false;
+    }
+	
+	private class SearchListFragment extends ListFragment implements OnGetAllPasswordCallback {
+	    private String[] rows;
+	    private List<Password> mPasswords;
+	 
+	    @Override
+	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	            Bundle savedInstanceState) {
+	        // TODO Auto-generated method stub
+	        View view = inflater.inflate(R.layout.search_result, container, false);
+	        return view;
+	    }
+	    
+	    @Override
+	    public void onActivityCreated(Bundle savedInstanceState) {
+	        super.onActivityCreated(savedInstanceState);
+	        
+	        getAllPasswordTitle();
+	 
+	        // ListViewにFilterをかけれるようにする
+	        getListView().setTextFilterEnabled(true);
+	    }
+	    
+	    @Override
+	    public void onListItemClick(ListView l, View v, int position, long id) {
+	        Password p = mPasswords.get(position);
+	        Builder builder = new Builder(getActivity());
+            builder.setMessage(p.getUserName() + ":" + p.getPassword());
+            builder.setTitle(rows[position]);
+            builder.setNegativeButton(R.string.no, null);
+            builder.show();
+	    }
+	 
+	    /**
+	     * ListViewにFilterをかける
+	     * @param s
+	     */
+	    public void setFilter(String s){
+	        getListView().setFilterText(s);
+	    }
+	 
+	    /**
+	     * ListViewのFilterをClearする
+	     */
+	    public void clearFilter(){
+	        getListView().clearTextFilter();
+	    }
+	    
+	    private void getAllPasswordTitle() {
+	        mainbinder.getAllPassword(this);
+	    }
+
+        @Override
+        public void onGetAllPassword(String froupName, List<Password> passwords) {
+            this.mPasswords = passwords;
+            int count = passwords.size();
+            rows = new String[count];
+            for (int i = 0; i < count; i ++) {
+                Password p = passwords.get(i);
+                rows[i] = p.getTitle();
+            }
+            
+            // ListViewに表示するItemの設定
+            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.search_result_item, R.id.sitename, rows));
+        }
 	}
 }
