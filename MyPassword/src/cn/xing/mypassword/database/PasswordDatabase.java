@@ -9,11 +9,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import cn.xing.mypassword.R;
-import cn.xing.mypassword.app.AES;
 import cn.xing.mypassword.app.MyApplication;
 import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.model.PasswordGroup;
 import cn.xing.mypassword.model.SettingKey;
+import cn.xing.mypassword.utils.AES;
 
 /**
  * 保存所有的密码数据

@@ -1,4 +1,4 @@
-package cn.xing.mypassword.app;
+package cn.xing.mypassword.utils;
 
 import java.security.SecureRandom;
 
@@ -7,7 +7,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import cn.xing.mypassword.utils.StringRandom;
 import android.annotation.SuppressLint;
 import android.util.Base64;
 import android.util.Log;

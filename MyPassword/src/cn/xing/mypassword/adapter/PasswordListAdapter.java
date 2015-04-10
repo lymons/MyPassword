@@ -1,31 +1,19 @@
 package cn.xing.mypassword.adapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
-import android.app.AlertDialog.Builder;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 import cn.xing.mypassword.R;
-import cn.xing.mypassword.activity.EditPasswordActivity;
 import cn.xing.mypassword.model.Password;
+import cn.xing.mypassword.model.PasswordItem;
 import cn.xing.mypassword.service.Mainbinder;
-import cn.zdx.lib.annotation.FindViewById;
 import cn.zdx.lib.annotation.XingAnnotationHelper;
 
 /**
@@ -37,16 +25,11 @@ import cn.zdx.lib.annotation.XingAnnotationHelper;
 public class PasswordListAdapter extends BaseAdapter {
 	private List<PasswordItem> passwords = new ArrayList<PasswordItem>();
 	private Context context;
-	private SimpleDateFormat simpleDateFormatYear = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+	
 	private int padding;
 	private Mainbinder mainbinder;
 
-	private SimpleDateFormat simpleDateFormatMonth = new SimpleDateFormat("MM-dd", Locale.getDefault());
-
 	private String passwordGroup;
-
-	/** 一天含有的秒数 */
-	private static final long DAY = 1000 * 60 * 60 * 24;
 
 	private Comparator<PasswordItem> comparator = new Comparator<PasswordItem>() {
 		@Override
@@ -85,7 +68,7 @@ public class PasswordListAdapter extends BaseAdapter {
 		this.mainbinder = mainbinder;
 		this.passwords.clear();
 		for (Password password : passwords) {
-			this.passwords.add(new PasswordItem(password));
+			this.passwords.add(new PasswordItem(context, password));
 		}
 		Collections.sort(this.passwords, comparator);
 		notifyDataSetChanged();
@@ -118,7 +101,7 @@ public class PasswordListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder;
 		if (convertView == null) {
-			viewHolder = new ViewHolder();
+			viewHolder = new ViewHolder(context, passwordGroup, mainbinder);
 			convertView = LayoutInflater.from(context).inflate(R.layout.main_password_item, parent, false);
 			convertView.setTag(viewHolder);
 			XingAnnotationHelper.findView(viewHolder, convertView);
@@ -142,176 +125,8 @@ public class PasswordListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private class ViewHolder implements android.view.View.OnClickListener {
-		@FindViewById(R.id.main_item_title)
-		public TextView titleView;
-
-		@FindViewById(R.id.main_item_date)
-		public TextView dateView;
-
-		@FindViewById(R.id.main_item_name)
-		public TextView nameView;
-
-		@FindViewById(R.id.main_item_password)
-		public TextView passwordView;
-
-		@FindViewById(R.id.main_item_note)
-		public TextView noteView;
-
-		@FindViewById(R.id.main_item_note_container)
-		public View noteConainer;
-
-		@FindViewById(R.id.main_item_top)
-		public View topIconView;
-
-		@FindViewById(R.id.main_item_copy)
-		public View copyView;
-
-		@FindViewById(R.id.main_item_delete)
-		public View deleteView;
-
-		@FindViewById(R.id.main_item_edit)
-		public View editView;
-
-		private PasswordItem passwordItem;
-
-		@Override
-		public void onClick(View view) {
-			switch (view.getId()) {
-				case R.id.main_item_copy:
-					onCopyClick();
-					break;
-				case R.id.main_item_delete:
-					onDeleteClick();
-					break;
-				case R.id.main_item_edit:
-					onEditClick();
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		private void onCopyClick() {
-			Builder builder = new Builder(context);
-
-			String[] item = new String[] { context.getResources().getString(R.string.copy_name),
-					context.getResources().getString(R.string.copy_password) };
-
-			builder.setItems(item, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					switch (which) {
-						case 0:
-							// 复制名字
-							ClipboardManager cmbName = (ClipboardManager) context
-									.getSystemService(Context.CLIPBOARD_SERVICE);
-							ClipData clipDataName = ClipData.newPlainText(null, passwordItem.password.getUserName());
-							cmbName.setPrimaryClip(clipDataName);
-							Toast.makeText(context, R.string.copy_name_toast, Toast.LENGTH_SHORT).show();
-							break;
-						case 1:
-							// 复制密码
-							ClipboardManager cmbPassword = (ClipboardManager) context
-									.getSystemService(Context.CLIPBOARD_SERVICE);
-							ClipData clipData = ClipData.newPlainText(null, passwordItem.password.getPassword());
-							cmbPassword.setPrimaryClip(clipData);
-							Toast.makeText(context, R.string.copy_password_toast, Toast.LENGTH_SHORT).show();
-							break;
-						default:
-							break;
-					}
-				}
-			});
-			builder.show();
-		}
-
-		private void onEditClick() {
-			Intent intent = new Intent(context, EditPasswordActivity.class);
-			intent.putExtra(EditPasswordActivity.ID, passwordItem.password.getId());
-			intent.putExtra(EditPasswordActivity.PASSWORD_GROUP, passwordGroup);
-			context.startActivity(intent);
-		}
-
-		private void onDeleteClick() {
-			Builder builder = new Builder(context);
-			builder.setMessage(R.string.alert_delete_message);
-			builder.setTitle(passwordItem.password.getTitle());
-			builder.setNeutralButton(R.string.yes, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					mainbinder.deletePassword(passwordItem.password.getId());
-				}
-			});
-			builder.setNegativeButton(R.string.no, null);
-			builder.show();
-		}
-
-		void bindView(PasswordItem passwordItem) {
-			this.passwordItem = passwordItem;
-			titleView.setText(passwordItem.password.getTitle());
-			dateView.setText(passwordItem.dataString);
-			nameView.setText(passwordItem.password.getUserName());
-			passwordView.setText(passwordItem.password.getPassword());
-
-			String note = passwordItem.password.getNote();
-			if (TextUtils.isEmpty(note)) {
-				noteConainer.setVisibility(View.GONE);
-			} else {
-				noteConainer.setVisibility(View.VISIBLE);
-				noteView.setText(note);
-			}
-
-			if (passwordItem.password.isTop()) {
-				topIconView.setVisibility(View.VISIBLE);
-				dateView.setTextColor(context.getResources().getColor(R.color.title_color));
-			} else {
-				topIconView.setVisibility(View.GONE);
-				dateView.setTextColor(context.getResources().getColor(R.color.text_color));
-			}
-		}
-	}
-
-	public class PasswordItem {
-		public String dataString;
-		public Password password;
-
-		private PasswordItem(Password password) {
-			this.password = password;
-			initDataString();
-		}
-
-		public void initDataString() {
-			dataString = fomartDate(password.getCreateDate());
-		}
-	}
-
-	private String fomartDate(long createDate) {
-		String result = "";
-		long currentTime = System.currentTimeMillis();
-		long distance = currentTime - createDate;
-		if (createDate > currentTime) {
-			result = simpleDateFormatYear.format(createDate);
-		} else if (distance < 1000 * 60) {
-			result = context.getString(R.string.just);
-		} else if (distance < 1000 * 60 * 60) {
-			String dateString = context.getString(R.string.minute_ago);
-			result = String.format(Locale.getDefault(), dateString, distance / (1000 * 60));
-		} else if (distance < DAY) {
-			String dateString = context.getString(R.string.hour_ago);
-			result = String.format(Locale.getDefault(), dateString, distance / (1000 * 60 * 60));
-		} else if (distance < DAY * 365) {
-			result = simpleDateFormatMonth.format(createDate);
-		} else {
-			result = simpleDateFormatYear.format(createDate);
-		}
-
-		return result;
-	}
-
 	public void onNewPassword(Password password) {
-		passwords.add(0, new PasswordItem(password));
+		passwords.add(0, new PasswordItem(context, password));
 		Collections.sort(this.passwords, comparator);
 		notifyDataSetChanged();
 	}
@@ -357,7 +172,7 @@ public class PasswordListAdapter extends BaseAdapter {
 		}
 
 		if (!hasFind) {
-			passwords.add(0, new PasswordItem(newPassword));
+			passwords.add(0, new PasswordItem(context, newPassword));
 			needSort = true;
 		}
 

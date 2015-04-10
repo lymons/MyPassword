@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Looper;
 import cn.xing.mypassword.model.SettingKey;
+import cn.xing.mypassword.utils.AES;
 
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
 	/** 配置文件 */

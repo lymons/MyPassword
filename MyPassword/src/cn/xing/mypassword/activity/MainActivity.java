@@ -42,6 +42,7 @@ import cn.xing.mypassword.activity.PasswordGroupFragment.OnPasswordGroupSelected
 import cn.xing.mypassword.app.BaseActivity;
 import cn.xing.mypassword.dialog.ExportDialog;
 import cn.xing.mypassword.dialog.ImportDialog;
+import cn.xing.mypassword.dialog.PasswordDialog;
 import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.model.SettingKey;
 import cn.xing.mypassword.service.MainService;
@@ -453,11 +454,8 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	    @Override
 	    public void onListItemClick(ListView l, View v, int position, long id) {
 	        Password p = mPasswords.get(position);
-	        Builder builder = new Builder(getActivity());
-            builder.setMessage(p.getUserName() + ":" + p.getPassword());
-            builder.setTitle(rows[position]);
-            builder.setNegativeButton(R.string.no, null);
-            builder.show();
+	        PasswordDialog cDialog = new PasswordDialog(getActivity(), mainbinder, p);
+            cDialog.show();
 	    }
 	 
 	    /**
