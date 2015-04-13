@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import cn.xing.mypassword.R;
+import cn.xing.mypassword.app.MyApplication;
 import cn.xing.mypassword.model.Password;
 import cn.xing.mypassword.model.PasswordGroup;
 import cn.xing.mypassword.service.MainService;
@@ -176,6 +177,7 @@ public class EditPasswordActivity extends BaseActivity implements OnGetPasswordC
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				mainbinder.deletePassword(id);
+				((MyApplication)getApplication()).setPasswordChanged(true);
 				finish();
 			}
 		});
@@ -203,6 +205,7 @@ public class EditPasswordActivity extends BaseActivity implements OnGetPasswordC
 				password.setId(id);
 				mainbinder.updatePassword(password);
 			}
+			((MyApplication)getApplication()).setPasswordChanged(true);
 			finish();
 		}
 	}

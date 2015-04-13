@@ -1,5 +1,6 @@
 package cn.xing.mypassword.activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -41,6 +43,7 @@ import cn.xing.mypassword.R;
 import cn.xing.mypassword.activity.fragment.PasswordGroupFragment;
 import cn.xing.mypassword.activity.fragment.PasswordListFragment;
 import cn.xing.mypassword.activity.fragment.PasswordGroupFragment.OnPasswordGroupSelected;
+import cn.xing.mypassword.app.MyApplication;
 import cn.xing.mypassword.dialog.ExportDialog;
 import cn.xing.mypassword.dialog.ImportDialog;
 import cn.xing.mypassword.dialog.PasswordDialog;
@@ -78,6 +81,7 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	private View drawerView;
 	
 	private boolean isRecoveriedFromSearch;
+	private String lastQueryString;
 
 	private OnPasswordGroupSelected onPasswordGroupSelected = new OnPasswordGroupSelected() {
 		@Override
@@ -300,7 +304,9 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
             return;
         }
         searchView.setIconifiedByDefault(true);
+        searchView.setImeOptions(searchView.getImeOptions() | EditorInfo.IME_ACTION_SEARCH);
         searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(this);
         searchView.setOnCloseListener(this);
         mi.setOnActionExpandListener(this);
@@ -363,8 +369,9 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	    if (TextUtils.isEmpty(newText)) {
 	        onClose();
 	    } else {
+	        this.lastQueryString = newText;
 	        showSearchResultFragment();
-	        if (searchListFragment != null && searchListFragment.isVisible()) {
+	        if (searchListFragment != null) {
 	            searchListFragment.setFilter(newText.toString());
 	        }
 	    }
@@ -377,6 +384,9 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	 */
 	@Override
 	public boolean onQueryTextSubmit(String query) {
+	    if (TextUtils.isEmpty(query) == false && searchListFragment != null && searchListFragment.isVisible()) {
+            searchListFragment.searchTitle(query);
+        }
 	    return false;
 	}
 	
@@ -428,11 +438,16 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
         fragmentTransaction.show(searchListFragment);
         fragmentTransaction.commitAllowingStateLoss();
         isRecoveriedFromSearch = false;
+        if (((MyApplication)getApplication()).isPasswordChanged()) {
+            searchListFragment.getAllPasswordTitle();
+            ((MyApplication)getApplication()).setPasswordChanged(false);
+        }
     }
 	
 	private class SearchListFragment extends ListFragment implements OnGetAllPasswordCallback {
 	    private String[] rows;
 	    private List<Password> mPasswords;
+	    private boolean showingOriginalData;
 	 
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -464,7 +479,16 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	     * @param s
 	     */
 	    public void setFilter(String s){
-	        getListView().setFilterText(s);
+	        if (rows == null) {
+                return;
+            }
+	        if (showingOriginalData == false && rows.length > 0) {
+	            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.search_result_item, R.id.sitename, rows));
+	            this.showingOriginalData = true;
+            }
+	        if (rows.length > 0) {
+	            getListView().setFilterText(s);
+            }
 	    }
 	 
 	    /**
@@ -474,7 +498,7 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	        getListView().clearTextFilter();
 	    }
 	    
-	    private void getAllPasswordTitle() {
+	    public void getAllPasswordTitle() {
 	        mainbinder.getAllPassword(this);
 	    }
 
@@ -490,6 +514,22 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
             
             // ListViewに表示するItemの設定
             setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.search_result_item, R.id.sitename, rows));
+            this.showingOriginalData = true;
+            setFilter(lastQueryString);
+        }
+        
+        public void searchTitle(String target) {
+            ArrayList<String> meets = new ArrayList<String>();
+            for (int i = 0; i < rows.length; i ++) {
+                String title = rows[i];
+                if (title.indexOf(target) >= 0) {
+                    meets.add(title);
+                }
+            }
+            // ListViewに表示するItemの設定
+            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.search_result_item, R.id.sitename, meets.toArray(new String[0])));
+            this.showingOriginalData = false;
         }
 	}
+	
 }

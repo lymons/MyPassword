@@ -22,6 +22,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 	private Map<SettingKey, List<OnSettingChangeListener>> onSettingChangeListenerMap = new HashMap<SettingKey, List<OnSettingChangeListener>>();
 
 	private boolean alreadyLeftFromForeground;
+	private boolean passwordChanged;
 	
 	@Override
 	public void onCreate() {
@@ -189,5 +190,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 
     public void setAlreadyLeftFromForeground(boolean alreadyLeftFromForeground) {
         this.alreadyLeftFromForeground = alreadyLeftFromForeground;
+    }
+
+    public boolean isPasswordChanged() {
+        return passwordChanged;
+    }
+
+    public void setPasswordChanged(boolean passwordChanged) {
+        this.passwordChanged = passwordChanged;
     }
 }
