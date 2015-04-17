@@ -35,10 +35,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
 import cn.xing.mypassword.R;
 import cn.xing.mypassword.activity.fragment.PasswordGroupFragment;
 import cn.xing.mypassword.activity.fragment.PasswordListFragment;
@@ -367,6 +370,9 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	@Override
 	public boolean onQueryTextChange(String newText) {
 	    if (TextUtils.isEmpty(newText)) {
+	        if (searchListFragment != null) {
+	            searchListFragment.clearFilter();
+	        }
 	        onClose();
 	    } else {
 	        this.lastQueryString = newText;
@@ -445,7 +451,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
     }
 	
 	private class SearchListFragment extends ListFragment implements OnGetAllPasswordCallback {
-	    private String[] rows;
 	    private List<Password> mPasswords;
 	    private boolean showingOriginalData;
 	 
@@ -469,7 +474,7 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	    
 	    @Override
 	    public void onListItemClick(ListView l, View v, int position, long id) {
-	        Password p = mPasswords.get(position);
+	        Password p = (Password)l.getAdapter().getItem(position);
 	        PasswordDialog cDialog = new PasswordDialog(getActivity(), mainbinder, p);
             cDialog.show();
 	    }
@@ -479,14 +484,14 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	     * @param s
 	     */
 	    public void setFilter(String s){
-	        if (rows == null) {
+	        if (this.mPasswords == null || this.mPasswords.size() < 1) {
                 return;
             }
-	        if (showingOriginalData == false && rows.length > 0) {
-	            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.search_result_item, R.id.sitename, rows));
+	        if (showingOriginalData == false && this.mPasswords.size() > 0) {
+	            setListAdapter(new PasswordAdapter(getActivity(), this.mPasswords));
 	            this.showingOriginalData = true;
             }
-	        if (rows.length > 0) {
+	        if (this.mPasswords.size() > 0) {
 	            getListView().setFilterText(s);
             }
 	    }
@@ -505,30 +510,106 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
         @Override
         public void onGetAllPassword(String froupName, List<Password> passwords) {
             this.mPasswords = passwords;
-            int count = passwords.size();
-            rows = new String[count];
-            for (int i = 0; i < count; i ++) {
-                Password p = passwords.get(i);
-                rows[i] = p.getTitle();
-            }
-            
-            // ListViewに表示するItemの設定
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.search_result_item, R.id.sitename, rows));
+            setListAdapter(new PasswordAdapter(getActivity(), this.mPasswords));
             this.showingOriginalData = true;
             setFilter(lastQueryString);
         }
         
         public void searchTitle(String target) {
-            ArrayList<String> meets = new ArrayList<String>();
-            for (int i = 0; i < rows.length; i ++) {
-                String title = rows[i];
-                if (title.indexOf(target) >= 0) {
-                    meets.add(title);
+            ArrayList<Password> meets = new ArrayList<Password>();
+            for (Password password : this.mPasswords) {
+                if (password.getTitle().indexOf(target) >= 0) {
+                    meets.add(password);
                 }
             }
-            // ListViewに表示するItemの設定
-            setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.search_result_item, R.id.sitename, meets.toArray(new String[0])));
+            setListAdapter(new PasswordAdapter(getActivity(), meets));
             this.showingOriginalData = false;
+        }
+	}
+	
+	public class PasswordAdapter extends ArrayAdapter<Password> implements Filterable {
+	    private List<Password> mOriginalValues;
+        private List<Password> mObjects;
+        private ArrayFilter filter;//过滤器
+        private final Object mLock = new Object();
+        
+        public PasswordAdapter(Context context, List<Password> objects) {
+            super(context, R.layout.search_result_item, new ArrayList<Password>(objects));
+            this.mObjects = objects;
+            this.mOriginalValues = new ArrayList<Password>(this.mObjects);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                LayoutInflater vi = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.search_result_item, parent, false); 
+            }
+            
+            Password p = getItem(position);
+            TextView tv = (TextView) convertView.findViewById(R.id.sitename);
+            tv.setText(p.getTitle());
+
+            return convertView;
+        }
+        
+        @Override  
+        public Filter getFilter() {  
+            if (filter == null) {    
+                filter = new ArrayFilter();    
+            }    
+            return filter;  
+        } 
+        
+        private class ArrayFilter extends Filter {  
+            
+            @Override  
+            protected FilterResults performFiltering(CharSequence prefix) {  
+                // TODO Auto-generated method stub  
+                FilterResults results = new FilterResults();  
+                if (prefix == null || prefix.length() == 0) {
+                    //没有过滤符就不过滤  
+                    //new ArrayList<String>()表示让ListView一开始的时候什么都没有,而不是全部显示到ListView中  
+                    //new ArrayList<String>(list)表示一开始就让Item全部显示到ListView中  
+                    ArrayList<Password> l;
+                    synchronized (mLock) {
+                        l = new ArrayList<Password>(mOriginalValues);  
+                    }
+                    results.values = l;  
+                    results.count = l.size();  
+                } else {  
+                      
+                    String prefixString = prefix.toString().toLowerCase();  
+                    ArrayList<Password> values;
+                    synchronized (mLock) {
+                        values = new ArrayList<Password>(mOriginalValues); 
+                    }
+                    final int count = values.size();  
+                    final ArrayList<Password> newValues = new ArrayList<Password>();  
+                    for (int i = 0; i < count; i++) {  
+                        final String value = values.get(i).getTitle();//原始字符串  
+                        final String valueText = value.toString().toLowerCase();  
+                        if (valueText.startsWith(prefixString)) {  
+                            newValues.add(values.get(i));  
+                        }  
+                    }  
+                      
+                    results.values = newValues;  
+                    results.count = newValues.size();  
+                }  
+  
+                return results;  
+            }  
+  
+            @SuppressWarnings("unchecked")
+            @Override  
+            protected void publishResults(CharSequence constraint,  
+                    FilterResults results) {  
+                // TODO Auto-generated method stub
+                mObjects = (List<Password>) results.values;
+                clear();
+                addAll(mObjects);
+            }
         }
 	}
 	
